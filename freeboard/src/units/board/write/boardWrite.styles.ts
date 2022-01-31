@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import { IBoardWriteUIProps } from "./boardWrite.types"
 
 export const Wrapper = styled.div`
   max-width: 750px;
@@ -39,7 +40,8 @@ export const SubmitButton = styled.button`
   border: none;
   font-size: 16px;
   font-weight: bold;
-  color: #d4d4d4;
+  color: ${(props: IBoardWriteUIProps) =>
+    props.isActive === true ? "red" : "#d4d4d4"};
   :hover {
     cursor: pointer;
   }
@@ -57,33 +59,25 @@ export const WrapperBodyHead = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
 `
 
 export const Writer = styled.div`
   font-size: 18px;
-  width: 50%;
-  & input {
-    font-size: 18px;
-    height: 20px;
-    margin-left: 10px;
-    padding-left: 5px;
-    border: none;
-    border-left: 1px solid;
-  }
+`
+
+export const Input = styled.input`
+  font-size: 18px;
+  height: 20px;
+  margin-left: 10px;
+  padding-left: 5px;
+  border: none;
+  border-left: 1px solid;
 `
 
 export const Password = styled.div`
   font-size: 18px;
   width: 50%;
-  & input {
-    font-size: 18px;
-    height: 20px;
-    margin-left: 10px;
-    padding-left: 5px;
-    border: none;
-    border-left: 1px solid;
-  }
 `
 
 export const WrapperBodyBody = styled.div`
