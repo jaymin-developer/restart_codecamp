@@ -5,7 +5,7 @@ import { AppProps } from "next/app"
 
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
-    uri: "http://example.codebootcamp.co.kr/graphql",
+    uri: "http://backend05.codebootcamp.co.kr/graphql",
     cache: new InMemoryCache(),
   })
 

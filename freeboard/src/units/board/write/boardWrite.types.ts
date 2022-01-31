@@ -6,7 +6,6 @@ export interface IBoardWriteProps {
 }
 
 export interface IBoardWriteUIProps {
-  SubmitButton: { children: string; isActive: boolean; onClick: () => void }
   onClickSubmit: () => void
   onClickMovetoHome: () => void
   onChangeWriter: (event: ChangeEvent<HTMLInputElement>) => void

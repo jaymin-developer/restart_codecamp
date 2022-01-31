@@ -1,5 +1,5 @@
 import LoginPageUI from "../login/login.presenter"
-import { useState } from "react"
+import { SetStateAction, useState } from "react"
 import { useRouter } from "next/router"
 
 export default function LoginPage() {
@@ -10,23 +10,26 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
 
-  const onChangeEmail = (event) => {
+  const onChangeEmail = (event: {
+    target: { value: SetStateAction<string> }
+  }) => {
     setEmail(event.target.value)
-    if (!email.includes("@")) {
-      setEmailError("이메일 주소를 다시 확인해주세요.")
-    } else {
+    if (email.includes("@")) {
       setEmailError("")
     }
   }
 
-  const onChangePassword = (event) => {
+  const onChangePassword = (event: {
+    target: { value: SetStateAction<string> }
+  }) => {
     setPassword(event.target.value)
     if (password.length >= 8 && password.length <= 16) {
       setPasswordError("")
-    } else {
-      setPasswordError("8~16자의 영문,숫자,특수 문자만 사용 가능합니다.")
     }
   }
+
+  console.log(passwordError)
+  console.log(emailError)
   const onClickLogin = () => {
     if (
       emailError === "" &&
@@ -38,6 +41,8 @@ export default function LoginPage() {
       router.push(`/signup`)
     } else {
       alert("이메일 혹은 비밀번호를 확인해주세요.")
+      setEmailError("이메일 주소를 다시 확인해주세요.")
+      setPasswordError("8~16자의 영문,숫자,특수 문자만 사용 가능합니다.")
     }
   }
 

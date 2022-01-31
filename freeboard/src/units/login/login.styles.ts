@@ -29,15 +29,21 @@ export const Email = styled.input`
   width: 100%;
   height: 40px;
   padding: 5px 10px;
-  margin-bottom: 10px;
   font-size: 18px;
   box-sizing: border-box;
 `
+
+export const ErrorMessage = styled.div`
+  width: 100%;
+  height: 20px;
+  font-size: 12px;
+  color: red;
+`
+
 export const Password = styled.input`
   width: 100%;
   height: 40px;
   padding: 5px 10px;
-  margin-bottom: 10px;
   font-size: 18px;
   box-sizing: border-box;
 `

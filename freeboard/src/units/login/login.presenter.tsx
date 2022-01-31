@@ -1,6 +1,22 @@
+import {
+  ChangeEventHandler,
+  ReactChild,
+  ReactFragment,
+  ReactPortal,
+  MouseEventHandler,
+} from "react"
 import * as S from "./login.styles"
 
-export default function LoginPageUI(props) {
+export default function LoginPageUI(props: {
+  onChangeEmail: ChangeEventHandler<HTMLInputElement>
+  email: string | number | readonly string[]
+  emailError: boolean | ReactChild | ReactFragment | ReactPortal
+  onChangePassword: ChangeEventHandler<HTMLInputElement>
+  password: string | number | readonly string[]
+  passwordError: boolean | ReactChild | ReactFragment | ReactPortal
+  onClickLogin: MouseEventHandler<HTMLButtonElement>
+  onClickSignUp: MouseEventHandler<HTMLDivElement>
+}) {
   return (
     <>
       <S.Wrapper>
@@ -15,12 +31,14 @@ export default function LoginPageUI(props) {
             onChange={props.onChangeEmail}
             value={props.email}
           ></S.Email>
+          <S.ErrorMessage>{props.emailError}</S.ErrorMessage>
           <S.Password
             type="password"
             placeholder="패스워드"
             onChange={props.onChangePassword}
             value={props.password}
           ></S.Password>
+          <S.ErrorMessage>{props.passwordError}</S.ErrorMessage>
           <S.LoginButton onClick={props.onClickLogin}>로그인</S.LoginButton>
         </S.LoginBody>
         <S.LoginFooter>

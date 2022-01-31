@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { ChangeEvent, useState } from "react"
 import BoardWriteUI from "./boardWrite.presenter"
 import { CREATE_BOARD } from "./boardWrite.queries"
-import { IBoardWriteProps } from "./boardWrite.types"
+import { IBoardWriteProps } from "./BoardWrite.types"
 
 export default function BoardWrite(props: IBoardWriteProps) {
   const router = useRouter()
@@ -37,7 +37,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
       : setIsActive(false)
   }
 
-  function onChangeContents(event: ChangeEvent<HTMLInputElement>) {
+  function onChangeContents(event: ChangeEvent<HTMLTextAreaElement>) {
     setContents(event.target.value)
     writer && password && title && event.target.value
       ? setIsActive(true)
@@ -79,6 +79,8 @@ export default function BoardWrite(props: IBoardWriteProps) {
       onChangeContents={onChangeContents}
       onClickSubmit={onClickSubmit}
       onClickMovetoHome={onClickMovetoHome}
+      isEdit={false}
+      data={undefined}
     />
   )
 }
