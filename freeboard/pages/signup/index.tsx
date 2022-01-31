@@ -1,5 +1,5 @@
-import SignUpPage from "../../src/units/signup/signup.container";
+import SignUpPage from "../../src/units/SignUp/SignUp.container"
 
 export default function SignUp() {
-  return <SignUpPage />;
+  return <SignUpPage />
 }

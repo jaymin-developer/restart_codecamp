@@ -1,9 +1,8 @@
-import { Fragment } from "react";
-import * as S from "./login.styles";
+import * as S from "./login.styles"
 
 export default function LoginPageUI(props) {
   return (
-    <Fragment>
+    <>
       <S.Wrapper>
         <S.LoginHeader>
           <S.Logo>📚</S.Logo>
@@ -27,7 +26,7 @@ export default function LoginPageUI(props) {
         <S.LoginFooter>
           <S.FindEmail>아이디 찾기</S.FindEmail>
           <S.FindPassword>비밀번호 찾기</S.FindPassword>
-          <S.Signup onClick={props.onClickSignup}>회원가입</S.Signup>
+          <S.SignUp onClick={props.onClickSignUp}>회원가입</S.SignUp>
         </S.LoginFooter>
         <S.SocialLoginButton>
           <S.SocialLoginButtonImg src="/images/kakao.png"></S.SocialLoginButtonImg>
@@ -36,6 +35,6 @@ export default function LoginPageUI(props) {
           </S.SocialLoginButtonTitle>
         </S.SocialLoginButton>
       </S.Wrapper>
-    </Fragment>
-  );
+    </>
+  )
 }

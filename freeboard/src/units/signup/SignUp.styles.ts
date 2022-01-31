@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from "@emotion/styled"
 
 export const Wrapper = styled.div`
   width: 540px;
@@ -10,11 +10,11 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 60px;
-`;
+`
 
 export const Title = styled.h1`
   font-size: 32px;
-`;
+`
 
 export const Email = styled.input`
   width: 380px;
@@ -25,7 +25,7 @@ export const Email = styled.input`
   padding: 18px;
   margin-top: 10px;
   font-size: 16px;
-`;
+`
 export const Name = styled.input`
   width: 380px;
   height: 30px;
@@ -35,7 +35,7 @@ export const Name = styled.input`
   padding: 18px;
   margin-top: 10px;
   font-size: 16px;
-`;
+`
 export const Password = styled.input`
   width: 380px;
   height: 30px;
@@ -45,7 +45,7 @@ export const Password = styled.input`
   padding: 18px;
   margin-top: 10px;
   font-size: 16px;
-`;
+`
 export const CheckPassword = styled.input`
   width: 380px;
   height: 30px;
@@ -55,9 +55,9 @@ export const CheckPassword = styled.input`
   padding: 18px;
   margin-top: 10px;
   font-size: 16px;
-`;
+`
 
-export const PhoneNumber = styled.div``;
+export const PhoneNumber = styled.div``
 export const SignUpButton = styled.button`
   margin-top: 10px;
   width: 418px;
@@ -70,4 +70,4 @@ export const SignUpButton = styled.button`
   :hover {
     cursor: pointer;
   }
-`;
+`

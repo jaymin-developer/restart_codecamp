@@ -1,4 +1,4 @@
-import * as S from "./singup.styles";
+import * as S from "./SignUp.styles"
 
 export default function SignUpPageUI(props) {
   return (
@@ -33,5 +33,5 @@ export default function SignUpPageUI(props) {
         <S.SignUpButton onClick={props.onClickSignUp}>가입하기</S.SignUpButton>
       </S.Wrapper>
     </>
-  );
+  )
 }
