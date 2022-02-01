@@ -6,17 +6,17 @@ export interface IBoardWriteProps {
 }
 
 export interface IBoardWriteUIProps {
+  isActive: boolean
   onClickSubmit: () => void
   onClickMovetoHome: () => void
   onChangeWriter: (event: ChangeEvent<HTMLInputElement>) => void
   onChangePassword: (event: ChangeEvent<HTMLInputElement>) => void
   onChangeTitle: (event: ChangeEvent<HTMLInputElement>) => void
   onChangeContents: (event: ChangeEvent<HTMLTextAreaElement>) => void
-  isActive: boolean
   isEdit: boolean
   data: any
 }
 
-// export interface IMyButtonProps {
-//   isActive: boolean
-// }
+export interface IMyButtonProps {
+  isActive: boolean
+}

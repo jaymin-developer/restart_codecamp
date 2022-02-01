@@ -40,7 +40,7 @@ export default function LoginPage() {
       alert(`관리자님 환영합니다`)
       router.push(`/signup`)
     } else {
-      alert("이메일 혹은 비밀번호를 확인해주세요.")
+      // alert("이메일 혹은 비밀번호를 확인해주세요.")
       setEmailError("이메일 주소를 다시 확인해주세요.")
       setPasswordError("8~16자의 영문,숫자,특수 문자만 사용 가능합니다.")
     }

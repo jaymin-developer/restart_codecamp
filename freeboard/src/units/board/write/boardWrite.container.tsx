@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { ChangeEvent, useState } from "react"
 import BoardWriteUI from "./boardWrite.presenter"
 import { CREATE_BOARD } from "./boardWrite.queries"
-import { IBoardWriteProps } from "./BoardWrite.types"
+import { IBoardWriteProps } from "./boardWrite.types"
 
 export default function BoardWrite(props: IBoardWriteProps) {
   const router = useRouter()

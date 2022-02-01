@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.form`
   width: 540px;
   border: 1px solid darkred;
   box-shadow: 7px 7px 39px rgba(139, 0, 0, 0.25);
@@ -25,6 +25,12 @@ export const Email = styled.input`
   padding: 18px;
   margin-top: 10px;
   font-size: 16px;
+`
+
+export const Error = styled.div`
+  width: 380px;
+  height: 20px;
+  color: red;
 `
 export const Name = styled.input`
   width: 380px;
@@ -60,7 +66,7 @@ export const CheckPassword = styled.input`
 export const PhoneNumber = styled.div``
 export const SignUpButton = styled.button`
   margin-top: 10px;
-  width: 418px;
+  width: 380px;
   height: 60px;
   border-radius: 7px;
   border: 1px solid #d2d2d2;

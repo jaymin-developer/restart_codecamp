@@ -26,10 +26,11 @@ export default function LoginPageUI(props: {
         </S.LoginHeader>
         <S.LoginBody>
           <S.Email
-            type="text"
+            type="email"
             placeholder="아이디"
             onChange={props.onChangeEmail}
             value={props.email}
+            required
           ></S.Email>
           <S.ErrorMessage>{props.emailError}</S.ErrorMessage>
           <S.Password
@@ -37,6 +38,7 @@ export default function LoginPageUI(props: {
             placeholder="패스워드"
             onChange={props.onChangePassword}
             value={props.password}
+            required
           ></S.Password>
           <S.ErrorMessage>{props.passwordError}</S.ErrorMessage>
           <S.LoginButton onClick={props.onClickLogin}>로그인</S.LoginButton>
