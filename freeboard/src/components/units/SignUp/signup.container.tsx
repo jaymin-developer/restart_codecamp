@@ -1,4 +1,4 @@
-import SignUpPageUI from "./SignUp.presenter"
+import SignUpPageUI from "./signup.presenter"
 import { useState } from "react"
 import { useMutation } from "@apollo/client"
 import { CREATE_USER } from "./SignUp.queries"
