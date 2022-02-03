@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 import { ChangeEvent, useState } from "react"
 import BoardWriteUI from "./boardWrite.presenter"
-import { CREATE_BOARD } from "./boardWrite.queries"
+import { CREATE_BOARD } from "./BoardWrite.queries"
 import { IBoardWriteProps } from "./boardWrite.types"
 
 export default function BoardWrite(props: IBoardWriteProps) {

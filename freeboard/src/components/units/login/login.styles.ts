@@ -1,9 +1,14 @@
 import styled from "@emotion/styled"
 
 export const Wrapper = styled.div`
-  width: 360px;
+  margin: auto;
+  width: 400px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
+  border: 1px solid darkred;
+  box-shadow: 7px 7px 39px rgba(139, 0, 0, 0.25);
+  border-radius: 20px;
 `
 
 export const LoginHeader = styled.div`
@@ -22,7 +27,7 @@ export const Moto = styled.div`
   font-size: 20px;
   color: gray;
 `
-export const LoginBody = styled.form`
+export const LoginBody = styled.div`
   width: 100%;
 `
 export const Email = styled.input`

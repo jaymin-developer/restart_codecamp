@@ -1,4 +1,4 @@
-import LoginPageUI from "../login/login.presenter"
+import LoginPageUI from "./login.presenter"
 import { SetStateAction, useState } from "react"
 import { useRouter } from "next/router"
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
       password === "book12345"
     ) {
       alert(`관리자님 환영합니다`)
-      router.push(`/signup`)
+      router.push(`/boards`)
     } else {
       // alert("이메일 혹은 비밀번호를 확인해주세요.")
       setEmailError("이메일 주소를 다시 확인해주세요.")
