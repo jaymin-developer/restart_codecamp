@@ -14,7 +14,8 @@ const LogoDiv = styled.div`
 `
 
 const Logo = styled.h1`
-  font-weight: bold;
+  width: 30%;
+  display: inline;
   :hover {
     cursor: pointer;
   }

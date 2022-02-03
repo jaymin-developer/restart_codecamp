@@ -24,7 +24,7 @@ export default function LoginPageUI(props: {
           <S.Logo>📚</S.Logo>
           <S.Moto>책이 당신을 기억합니다.</S.Moto>
         </S.LoginHeader>
-        <S.LoginBody>
+        <S.LoginBody onKeyPress={props.onCheckEnter}>
           <S.Email
             type="email"
             placeholder="아이디"

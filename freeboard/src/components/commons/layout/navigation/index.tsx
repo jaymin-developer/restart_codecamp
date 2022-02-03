@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `
 
 const Menu = styled.div`
-  width: 300px;
+  width: 600px;
   display: flex;
   justify-content: space-between;
   font-size: 16px;
@@ -28,6 +28,7 @@ export default function LayoutNavigation() {
   return (
     <Wrapper>
       <Menu>
+        <button>도서정보 검색</button>
         <button>자유게시판</button>
         <button>중고마켓</button>
         <button>나의 기록</button>

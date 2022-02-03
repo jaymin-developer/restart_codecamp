@@ -50,6 +50,12 @@ export default function LoginPage() {
     router.push(`/signup`)
   }
 
+  const onCheckEnter = (e: any) => {
+    if (e.key === "Enter") {
+      onClickLogin()
+    }
+  }
+
   return (
     <LoginPageUI
       email={email}
@@ -60,6 +66,7 @@ export default function LoginPage() {
       onChangePassword={onChangePassword}
       onClickLogin={onClickLogin}
       onClickSignUp={onClickSignUp}
+      onCheckEnter={onCheckEnter}
     ></LoginPageUI>
   )
 }
