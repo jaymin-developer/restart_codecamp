@@ -2,7 +2,7 @@ import styled from "@emotion/styled"
 import { IBoardWriteUIProps } from "./boardWrite.types"
 
 export const Wrapper = styled.div`
-  max-width: 750px;
+  max-width: 1000px;
   box-sizing: border-box;
   margin: 30px auto 0 auto;
   display: flex;

@@ -7,6 +7,12 @@ import CardMedia from "@mui/material/CardMedia"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { getMyDate } from "../../../../commons/libraries/utils"
+import styled from "@emotion/styled"
+
+const CardActionsDiv = styled(CardActions)`
+  display: flex;
+  justify-content: flex-end;
+`
 
 export default function BoardListUI(props) {
   console.log(props.bestListData)
@@ -31,8 +37,8 @@ export default function BoardListUI(props) {
                 {el.contents}
               </Typography>
             </CardContent>
-            <CardActions>
-              <Button size="small">공유</Button>
+            <CardActionsDiv>
+              {/* <Button size="small">공유</Button> */}
               <Button
                 id={el._id}
                 size="small"
@@ -40,7 +46,7 @@ export default function BoardListUI(props) {
               >
                 더 보기
               </Button>
-            </CardActions>
+            </CardActionsDiv>
           </Card>
         ))}
       </S.BestBoards>
