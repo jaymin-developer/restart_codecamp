@@ -24,22 +24,19 @@ const ChildrenBody = styled.div`
   width: 100%;
 `
 
-const HIDDEN = ["/login", "/signup"]
-const HIDDEN_ALL = ["/landing"]
-// const HIDDEN_BANNER = ["/boards", "/login", "/signup"]
-// const HIDDEN_FOOTER = ["/boards", "/login", "/signup"]
-
 export default function Layout(props: IProps) {
   const router = useRouter()
+  const HIDDEN = ["/login", "/signup"]
+  const HIDDEN_BANNER = [`/boards/${router.query.id}`]
+  const HIDDEN_ALL = ["/landing", "/"]
   const isHidden = HIDDEN.includes(router.asPath)
   const isAllHidden = HIDDEN_ALL.includes(router.asPath)
-  // const isHiddenBanner = HIDDEN_BANNER.includes(router.asPath)
-  // const isHiddenFooter = HIDDEN_FOOTER.includes(router.asPath)
+  const isBannerHidden = HIDDEN_BANNER.includes(router.asPath)
 
   return (
     <Wrapper>
       {isAllHidden || <LayoutHeader />}
-      {isAllHidden || isHidden || <LayoutBanner />}
+      {isAllHidden || isHidden || isBannerHidden || <LayoutBanner />}
       {isAllHidden || isHidden || <LayoutNavigation />}
       <BodyWrapper>
         {isAllHidden || isHidden || <LayoutSidebar />}

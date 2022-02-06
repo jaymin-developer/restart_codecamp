@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { getMyDate } from "../../../../commons/libraries/utils"
+import { getMyDate, NowDate } from "../../../../commons/libraries/utils"
 import styled from "@emotion/styled"
 
 const CardActionsDiv = styled(CardActions)`
@@ -15,7 +15,6 @@ const CardActionsDiv = styled(CardActions)`
 `
 
 export default function BoardListUI(props) {
-  console.log(props.bestListData)
   return (
     <S.Wrapper>
       <S.Head>베스트 게시글</S.Head>
@@ -29,7 +28,7 @@ export default function BoardListUI(props) {
               alt="book"
             />
             <CardContent>
-              {getMyDate(el.createdAt)} {el.writer}
+              {getMyDate(el.createdAt).slice(0, 10)} {el.writer}
               <Typography id={el._id} gutterBottom variant="h5" component="div">
                 {el.title}
               </Typography>
@@ -72,6 +71,19 @@ export default function BoardListUI(props) {
                   color="text.secondary"
                   gutterBottom
                 >
+                  {/* {getMyDate(el.createdAt)} */}
+                  {Number(NowDate().slice(0, 10).split(".").join("")) -
+                    Number(
+                      getMyDate(el.createdAt).slice(0, 10).split(".").join("")
+                    ) <
+                  1 ? (
+                    <span>
+                      <S.UpdateIcon />
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
+                  {console.log(NowDate().slice(0, 10).split(".").join(""))}
                   작성일자 : {getMyDate(el.createdAt)}
                 </Typography>
                 <Typography id={el._id} variant="h5" component="div">

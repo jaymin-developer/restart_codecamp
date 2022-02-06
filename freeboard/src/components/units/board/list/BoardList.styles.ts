@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -6,7 +7,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 80px 80px;
+  padding: 30px 80px;
 `
 
 export const Head = styled.h1`
@@ -77,4 +78,8 @@ export const SearchButton = styled.button`
 `
 export const ContentsList = styled.div`
   width: 100%;
+`
+
+export const UpdateIcon = styled(AutoAwesomeIcon)`
+  color: red;
 `

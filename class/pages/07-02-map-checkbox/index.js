@@ -1,5 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-import styled from "@emotion/styled";
+import { gql, useQuery } from "@apollo/client"
+import styled from "@emotion/styled"
 
 const FETCH_BOARDS = gql`
   query fetchBoards {
@@ -10,22 +10,23 @@ const FETCH_BOARDS = gql`
       createdAt
     }
   }
-`;
+`
 
 const Row = styled.div`
   display: flex;
-`;
+`
 
 const Column = styled.div`
   width: 20%;
-`;
+`
 
 export default function MapCheckboxPage() {
-  const { data } = useQuery(FETCH_BOARDS);
+  const { data } = useQuery(FETCH_BOARDS)
 
   return (
     <div>
       {data?.fetchBoards?.map((el) => (
+        // eslint-disable-next-line react/jsx-key
         <Row>
           <Column>
             <input type="checkbox" />
@@ -37,5 +38,5 @@ export default function MapCheckboxPage() {
         </Row>
       ))}
     </div>
-  );
+  )
 }
