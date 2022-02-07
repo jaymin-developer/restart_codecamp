@@ -24,6 +24,7 @@ export const WrapperHead = styled.div`
 export const CancelButton = styled.button`
   background-color: transparent;
   border: none;
+  color: darkred;
   font-size: 16px;
   :hover {
     cursor: pointer;

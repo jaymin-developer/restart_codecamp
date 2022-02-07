@@ -19,8 +19,8 @@ const Logo = styled.h1`
   color: white;
 `
 const Page1 = styled.div`
-  width: 100%;
-  height: 720px;
+  width: 100vw;
+  height: 100vh;
   padding-top: 40;
   display: flex;
   flex-direction: column;
@@ -58,8 +58,8 @@ const HomeButton = styled.button`
 `
 
 const Page2 = styled.div`
-  width: 100%;
-  height: 720px;
+  width: 100vw;
+  height: 100vh;
   padding-top: 40;
   display: flex;
   flex-direction: column;
@@ -68,14 +68,14 @@ const Page2 = styled.div`
   background-image: url("/images/book.jpg");
 `
 
-const Message = styled.div`
-  width: 30%;
-  height: 500px;
-  background-color: #9b794ce1;
-  margin: 100px;
-  border: 1px solid lightgray;
-  padding: 50px;
-`
+// const Message = styled.div`
+//   width: 30%;
+//   height: 500px;
+//   background-color: #9b794ce1;
+//   margin: 100px;
+//   border: 1px solid lightgray;
+//   padding: 50px;
+// `
 
 export default function LandingPage() {
   const router = useRouter()

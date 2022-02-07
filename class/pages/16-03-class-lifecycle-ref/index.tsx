@@ -46,6 +46,7 @@ export default class ClassCounterPage extends Component {
     Router.push("/");
   };
 
+
   // 화면에 그려준다.
   render() {
     return (

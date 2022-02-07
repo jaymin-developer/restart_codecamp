@@ -2,8 +2,9 @@ import { useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 import { ChangeEvent, useState } from "react"
 import BoardWriteUI from "./boardWrite.presenter"
-import { CREATE_BOARD } from "./BoardWrite.queries"
-import { IBoardWriteProps } from "./boardWrite.types"
+import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries"
+import { IBoardWriteProps, IMyUpdateBoardInput } from "./boardWrite.types"
+import { Modal } from "antd"
 
 export default function BoardWrite(props: IBoardWriteProps) {
   const router = useRouter()
@@ -15,6 +16,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
   const [isActive, setIsActive] = useState<boolean>(false)
 
   const [createBoard] = useMutation(CREATE_BOARD)
+  const [updateBoard] = useMutation(UPDATE_BOARD)
 
   function onChangeWriter(event: ChangeEvent<HTMLInputElement>) {
     setWriter(event.target.value)
@@ -64,7 +66,35 @@ export default function BoardWrite(props: IBoardWriteProps) {
     }
   }
 
-  console.log(isActive)
+  async function onClickUpdate() {
+    if (!title && !contents && !props.isEdit) {
+      Modal.error({ content: "하나는 입력해야합니다." })
+      return
+    }
+
+    if (!password) {
+      Modal.error({ content: "비밀번호를 입력해주세요." })
+      return
+    }
+
+    const myUpdateBoardInput: IMyUpdateBoardInput = {}
+    if (title) myUpdateBoardInput.title = title
+    if (contents) myUpdateBoardInput.contents = contents
+
+    try {
+      await updateBoard({
+        variables: {
+          boardId: router.query.id,
+          password: password,
+          updateBoardInput: myUpdateBoardInput,
+        },
+      })
+      Modal.success({ content: "수정이 완료되었습니다." })
+      router.push(`/boards/${router.query.id}`)
+    } catch (error) {
+      Modal.error({ content: error.message })
+    }
+  }
 
   function onClickMovetoHome() {
     router.push(`/`)
@@ -78,9 +108,10 @@ export default function BoardWrite(props: IBoardWriteProps) {
       onChangeTitle={onChangeTitle}
       onChangeContents={onChangeContents}
       onClickSubmit={onClickSubmit}
+      onClickUpdate={onClickUpdate}
       onClickMovetoHome={onClickMovetoHome}
-      isEdit={false}
-      data={undefined}
+      isEdit={props.isEdit}
+      data={props.data}
     />
   )
 }

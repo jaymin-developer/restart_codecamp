@@ -52,6 +52,10 @@ export default function BoardDetail() {
     })
   }
 
+  function onClickMoveToList() {
+    router.push("/boards")
+  }
+
   return (
     <BoardDetailUI
       data={data}
@@ -59,6 +63,7 @@ export default function BoardDetail() {
       disLikeClicked={disLikeClicked}
       isLikeClicked={isLikeClicked}
       isDisLikeClicked={isDisLikeClicked}
+      onClickMoveToList={onClickMoveToList}
     />
   )
 }

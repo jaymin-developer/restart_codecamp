@@ -26,6 +26,13 @@ export const DetailWrapper = styled.div`
 
 export const Head = styled.div``
 
+export const TopMenu = styled.div`
+  color: darkred;
+  :hover {
+    cursor: pointer;
+  }
+`
+
 export const WriterBox = styled.div`
   width: 100%;
   height: 80px;
@@ -42,7 +49,7 @@ export const ProfilePhoto = styled.img`
 `
 
 export const WriterCreatedAt = styled.div`
-  width: 80%;
+  width: 70%;
 `
 export const Writer = styled.div``
 export const CreatedAt = styled.div`
