@@ -26,7 +26,7 @@ const ChildrenBody = styled.div`
 
 export default function Layout(props: IProps) {
   const router = useRouter()
-  const HIDDEN = ["/login", "/signup"]
+  const HIDDEN = ["/login", "/signup", "/boards/new"]
   const HIDDEN_BANNER = [`/boards/${router.query.id}`]
   const HIDDEN_ALL = ["/landing", "/"]
   const isHidden = HIDDEN.includes(router.asPath)
@@ -37,12 +37,12 @@ export default function Layout(props: IProps) {
     <Wrapper>
       {isAllHidden || <LayoutHeader />}
       {isAllHidden || isHidden || isBannerHidden || <LayoutBanner />}
-      {isAllHidden || isHidden || <LayoutNavigation />}
+      {isAllHidden || <LayoutNavigation />}
       <BodyWrapper>
         {isAllHidden || isHidden || <LayoutSidebar />}
         <ChildrenBody>{props.children}</ChildrenBody>
       </BodyWrapper>
-      <LayoutFooter />
+      {isHidden || <LayoutFooter />}
     </Wrapper>
   )
 }

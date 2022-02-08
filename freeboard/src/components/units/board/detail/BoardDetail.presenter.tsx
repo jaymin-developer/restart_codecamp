@@ -3,6 +3,7 @@ import { getMyDate } from "../../../../commons/libraries/utils"
 import BasicMenu from "../../../commons/basicMenu/index"
 
 export default function BoardDetailUI(props) {
+  console.log(props.data?.fetchBoard)
   return (
     <S.Wrapper>
       <S.DetailWrapper>
@@ -21,6 +22,9 @@ export default function BoardDetailUI(props) {
             <BasicMenu />
           </S.WriterBox>
           <S.Title>{props.data?.fetchBoard?.title}</S.Title>
+          <S.Image
+            src={`https://storage.googleapis.com/${props.data?.fetchBoard?.images?.[0]}`}
+          />
           <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
           <S.LikeDisLikeBox>
             {props.likeClicked ? (

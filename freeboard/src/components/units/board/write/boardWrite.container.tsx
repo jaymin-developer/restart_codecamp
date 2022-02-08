@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 import { ChangeEvent, useState } from "react"
 import BoardWriteUI from "./boardWrite.presenter"
-import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries"
+import { CREATE_BOARD, UPDATE_BOARD, UPLOAD_FILE } from "./BoardWrite.queries"
 import { IBoardWriteProps, IMyUpdateBoardInput } from "./boardWrite.types"
 import { Modal } from "antd"
 
@@ -12,11 +12,13 @@ export default function BoardWrite(props: IBoardWriteProps) {
   const [writer, setWriter] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [title, setTitle] = useState<string>("")
+  const [images, setImages] = useState([])
   const [contents, setContents] = useState<string>("")
   const [isActive, setIsActive] = useState<boolean>(false)
 
   const [createBoard] = useMutation(CREATE_BOARD)
   const [updateBoard] = useMutation(UPDATE_BOARD)
+  const [uploadFile] = useMutation(UPLOAD_FILE)
 
   function onChangeWriter(event: ChangeEvent<HTMLInputElement>) {
     setWriter(event.target.value)
@@ -56,6 +58,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
               password,
               title,
               contents,
+              images,
             },
           },
         })
@@ -96,8 +99,26 @@ export default function BoardWrite(props: IBoardWriteProps) {
     }
   }
 
-  function onClickMovetoHome() {
-    router.push(`/`)
+  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+
+    // result에는 url
+    try {
+      const result = await uploadFile({
+        variables: {
+          file,
+        },
+      })
+      console.log(result.data?.uploadFile.url)
+
+      setImages(result.data?.uploadFile.url || "")
+    } catch (error) {
+      if (error instanceof Error) alert(error.message)
+    }
+  }
+
+  function onClickMovetoBoard() {
+    router.push(`/boards`)
   }
 
   return (
@@ -109,7 +130,9 @@ export default function BoardWrite(props: IBoardWriteProps) {
       onChangeContents={onChangeContents}
       onClickSubmit={onClickSubmit}
       onClickUpdate={onClickUpdate}
-      onClickMovetoHome={onClickMovetoHome}
+      onClickMovetoBoard={onClickMovetoBoard}
+      onChangeFile={onChangeFile}
+      images={images}
       isEdit={props.isEdit}
       data={props.data}
     />

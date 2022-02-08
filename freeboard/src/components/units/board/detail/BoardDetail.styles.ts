@@ -60,6 +60,10 @@ export const Title = styled.h1`
   padding-top: 20px;
 `
 
+export const Image = styled.img`
+  width: 100%;
+`
+
 export const MapIcon = styled(MyLocationIcon)`
   font-size: 20px;
   color: darkred;

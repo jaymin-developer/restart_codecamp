@@ -1,13 +1,15 @@
 import * as S from "./BoardWrite.styles"
 import { IBoardWriteUIProps } from "./boardWrite.types"
+import UploadButtons from "../../../commons/imageUpload/index"
 
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
   return (
     <S.Wrapper>
       <S.WrapperHead>
-        <S.CancelButton onClick={props.onClickMovetoHome}>취소</S.CancelButton>
+        <S.CancelButton onClick={props.onClickMovetoBoard}>취소</S.CancelButton>
         <S.WrapperTitle>{props.isEdit ? "글수정" : "글쓰기"}</S.WrapperTitle>
         <S.SubmitButton
+          isEdit={props.isEdit}
           isActive={props.isActive}
           onClick={props.isEdit ? props.onClickUpdate : props.onClickSubmit}
         >
@@ -49,7 +51,14 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           />
         </S.WrapperBodyBody>
       </S.WrapperBody>
-      <S.WrapperFoot>사진, 주소, youtube</S.WrapperFoot>
+      <S.WrapperFoot>
+        <S.ImageUpload>
+          <UploadButtons
+            onChangeFile={props.onChangeFile}
+            images={props.images}
+          />
+        </S.ImageUpload>
+      </S.WrapperFoot>
     </S.Wrapper>
   )
 }

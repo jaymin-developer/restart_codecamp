@@ -6,6 +6,7 @@ export interface IBoardWriteProps {
 }
 
 export interface IBoardWriteUIProps {
+  onClickUpdate: MouseEventHandler<HTMLButtonElement>
   isActive: boolean
   onClickSubmit: () => void
   onClickMovetoHome: () => void

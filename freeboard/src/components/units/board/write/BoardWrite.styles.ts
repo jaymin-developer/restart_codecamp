@@ -4,7 +4,7 @@ import { IBoardWriteUIProps } from "./boardWrite.types"
 export const Wrapper = styled.div`
   max-width: 1000px;
   box-sizing: border-box;
-  margin: 30px auto 0 auto;
+  margin: 30px auto 30px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +42,7 @@ export const SubmitButton = styled.button`
   font-size: 16px;
   font-weight: bold;
   color: ${(props: IBoardWriteUIProps) =>
-    props.isActive === true ? "red" : "#d4d4d4"};
+    props.isEdit || props.isActive ? "red" : "#d4d4d4"};
   :hover {
     cursor: pointer;
   }
@@ -108,6 +108,10 @@ export const Contents = styled.textarea`
 
 export const WrapperFoot = styled.div`
   width: 100%;
-  height: 36px;
-  background-color: lightgray;
+`
+
+export const ImageUpload = styled.div`
+  width: 100%;
+  padding: 20px 30px;
+  border-top: 1px solid #d4d4d4;
 `

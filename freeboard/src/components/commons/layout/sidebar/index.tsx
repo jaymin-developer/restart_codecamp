@@ -11,9 +11,6 @@ const Wrapper = styled.div`
   position: sticky;
   top: 50px;
   left: 60px;
-
-  & h3 {
-    text-align: center;
   }
 `
 
@@ -24,9 +21,9 @@ export default function LayoutNavigation() {
         src="https://ads-partners.coupang.com/widgets.html?id=555617&template=carousel&trackingCode=AF6105147&subId=&width=300&height=700"
         width="100%"
         height="700"
-        frameborder="0"
+        frameBorder="0"
         scrolling="no"
-        referrerpolicy="unsafe-url"
+        referrerPolicy="unsafe-url"
       ></iframe>
     </Wrapper>
   )
