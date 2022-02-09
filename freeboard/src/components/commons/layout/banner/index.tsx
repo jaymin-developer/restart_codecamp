@@ -46,7 +46,7 @@ export default function LayoutBanner() {
           <img src="http://image.yes24.com/goods/99308021/XL" />
         </ImgDiv>
         <ImgDiv>
-          <img src="http://image.yes24.com/goods/106384872/XL" />
+          <img src="http://image.yes24.com/goods/105363239/XL" />
         </ImgDiv>
         <ImgDiv>
           <img src="http://image.yes24.com/goods/106227315/XL" />
@@ -58,7 +58,7 @@ export default function LayoutBanner() {
           <img src="http://image.yes24.com/goods/106479154/XL" />
         </ImgDiv>
         <ImgDiv>
-          <img src="http://image.yes24.com/goods/105760438/XL" />
+          <img src="http://image.yes24.com/goods/105106894/XL" />
         </ImgDiv>
         <ImgDiv>
           <img src="http://image.yes24.com/goods/105981214/XL" />

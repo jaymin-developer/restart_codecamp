@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   position: sticky;
   top: 50px;
   left: 60px;
-  }
 `
 
 export default function LayoutNavigation() {

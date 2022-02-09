@@ -58,8 +58,6 @@ export default function UploadButtons(props) {
               objectFit: "cover",
               cursor: "zoom-in",
             }}
-
-            // style="WIDTH: 650px"  alt="클릭하시면 조금더 커집니다.." hspace="0"}
           />
         </div>
       ) : (

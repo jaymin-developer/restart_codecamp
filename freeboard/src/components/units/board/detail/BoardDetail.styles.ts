@@ -51,12 +51,19 @@ export const ProfilePhoto = styled.img`
 export const WriterCreatedAt = styled.div`
   width: 70%;
 `
-export const Writer = styled.div``
+export const Writer = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
 export const CreatedAt = styled.div`
   color: #828282;
 `
 
 export const Title = styled.h1`
+  max-width: 1500px;
+  table-layout: fixed;
+  word-wrap: break-word;
   padding-top: 20px;
 `
 
@@ -74,6 +81,9 @@ export const Link = styled(LinkIcon)`
   color: darkred;
 `
 export const Contents = styled.div`
+  max-width: 1500px;
+  table-layout: fixed;
+  word-wrap: break-word;
   padding-top: 20px;
 `
 

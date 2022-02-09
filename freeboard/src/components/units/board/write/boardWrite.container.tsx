@@ -12,7 +12,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
   const [writer, setWriter] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [title, setTitle] = useState<string>("")
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState([""])
   const [contents, setContents] = useState<string>("")
   const [isActive, setIsActive] = useState<boolean>(false)
 

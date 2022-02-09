@@ -22,9 +22,13 @@ export default function BoardDetailUI(props) {
             <BasicMenu />
           </S.WriterBox>
           <S.Title>{props.data?.fetchBoard?.title}</S.Title>
-          <S.Image
-            src={`https://storage.googleapis.com/${props.data?.fetchBoard?.images?.[0]}`}
-          />
+          {props.data?.fetchBoard?.images[0] ? (
+            <S.Image
+              src={`https://storage.googleapis.com/${props.data?.fetchBoard?.images?.[0]}`}
+            />
+          ) : (
+            ""
+          )}
           <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
           <S.LikeDisLikeBox>
             {props.likeClicked ? (

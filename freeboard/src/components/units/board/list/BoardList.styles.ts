@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 80px;
+  padding: 30px 80px 50px;
 `
 
 export const Head = styled.h1`
@@ -82,4 +82,20 @@ export const ContentsList = styled.div`
 
 export const UpdateIcon = styled(AutoAwesomeIcon)`
   color: red;
+`
+
+export const PageNationDetail = styled.span`
+  font-size: large;
+  color: ${(props) =>
+    props.clickPage === props.index + props.startPage ? "darkred" : ""};
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+`
+
+export const PageNationWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `
