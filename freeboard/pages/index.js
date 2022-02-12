@@ -88,7 +88,7 @@ export default function LandingPage() {
     <Wrapper>
       <Page1>
         <LogoDiv>
-          <Logo>📚 Book's Memory</Logo>
+          <Logo>📚 Book&apos;s Memory</Logo>
         </LogoDiv>
         <Moto>
           책이 당신을 기억합니다.

@@ -27,7 +27,7 @@ export const Moto = styled.div`
   font-size: 20px;
   color: gray;
 `
-export const LoginBody = styled.form`
+export const LoginBody = styled.div`
   width: 100%;
 `
 export const Email = styled.input`

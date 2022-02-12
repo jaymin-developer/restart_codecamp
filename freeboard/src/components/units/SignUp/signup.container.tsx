@@ -14,7 +14,9 @@ export default function SignUpPage() {
   const [nameError, setNameError] = useState("")
 
   const [password, setPassword] = useState("")
-  const [passwordError, setPasswordError] = useState("")
+  const [passwordError, setPasswordError] = useState(
+    "8~16자의 영문,숫자,특수 문자의 조합하여 작성해주세요."
+  )
 
   const [checkPassword, setCheckPassword] = useState("")
   const [checkPasswordError, setCheckPasswordError] = useState("")
@@ -37,7 +39,13 @@ export default function SignUpPage() {
 
   function onChangePassword(event) {
     setPassword(event.target.value)
-    if (event.target.value.length >= 8 && event.target.value.length <= 16) {
+    if (
+      event.target.value.length >= 8 &&
+      event.target.value.length <= 16 &&
+      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+        event.target.value
+      )
+    ) {
       setPasswordError("")
     }
   }
@@ -50,21 +58,35 @@ export default function SignUpPage() {
   }
 
   async function onClickSignUp() {
-    if (email === "") {
-      setEmailError("이메일을 입력해주세요.")
+    if (/^\w+@\w+\.\w+$/.test(email) === false) {
+      setEmailError("올바른 이메일 형식이 아닙니다.")
     }
+
     if (name === "") {
       setNameError("이름을 입력해주세요.")
     }
-    if (password === "") {
-      setPasswordError("8~16자의 영문,숫자,특수 문자만 사용 가능합니다.")
-    }
-    checkPassword === ""
-      ? setCheckPasswordError("비밀번호를 다시 입력해주세요.")
-      : checkPassword !== password &&
-        setCheckPasswordError("비밀번호와 일치하지 않습니다.")
 
-    if (email && name && password && checkPassword === password) {
+    if (
+      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+        password
+      ) === false
+    ) {
+      setPasswordError("8~16자의 영문,숫자,특수 문자의 조합하여 작성해주세요.")
+    }
+
+    checkPassword !== password &&
+      setCheckPasswordError("비밀번호와 일치하지 않습니다.")
+
+    if (
+      // email &&
+      name &&
+      password &&
+      checkPassword === password &&
+      /^\w+@\w+\.\w+$/.test(email) &&
+      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+        password
+      )
+    ) {
       try {
         await createUser({
           variables: {
@@ -78,7 +100,7 @@ export default function SignUpPage() {
         alert("회원가입이 되었습니다. 로그인을 해주세요.")
         router.push(`/login`)
       } catch (error) {
-        console.log(error.message)
+        alert(error.message)
       }
     }
   }

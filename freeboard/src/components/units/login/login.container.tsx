@@ -1,5 +1,5 @@
 import LoginPageUI from "./login.presenter"
-import { SetStateAction, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/router"
 
 export default function LoginPage() {
@@ -10,39 +10,48 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
 
-  const onChangeEmail = (event: {
-    target: { value: SetStateAction<string> }
-  }) => {
+  const onChangeEmail = (event: { target: { value } }) => {
     setEmail(event.target.value)
-    if (email.includes("@")) {
+    if (/^\w+@\w+\.\w+$/.test(event.target.value)) {
       setEmailError("")
     }
   }
 
-  const onChangePassword = (event: {
-    target: { value: SetStateAction<string> }
-  }) => {
+  const onChangePassword = (event: { target: { value } }) => {
     setPassword(event.target.value)
-    if (password.length >= 8 && password.length <= 16) {
+    if (
+      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+        event.target.value
+      )
+    ) {
       setPasswordError("")
     }
   }
-
-  console.log(passwordError)
-  console.log(emailError)
   const onClickLogin = () => {
+    if (/^\w+@\w+\.\w+$/.test(email) === false) {
+      setEmailError("올바른 이메일 형식이 아닙니다.")
+    }
+    if (email !== "admin@book.com") {
+      setEmailError("존재하지 않는 이메일입니다.")
+    }
+
     if (
-      emailError === "" &&
-      passwordError === "" &&
+      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+        password
+      ) === false
+    ) {
+      setPasswordError("8~16자의 영문,숫자,특수 문자의 조합하여 작성해주세요.")
+    }
+    if (
+      /^\w+@\w+\.\w+$/.test(email) &&
+      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+        password
+      ) &&
       email === "admin@book.com" &&
-      password === "book12345"
+      password === "book123!@"
     ) {
       alert(`관리자님 환영합니다`)
       router.push(`/boards`)
-    } else {
-      // alert("이메일 혹은 비밀번호를 확인해주세요.")
-      setEmailError("이메일 주소를 다시 확인해주세요.")
-      setPasswordError("8~16자의 영문,숫자,특수 문자만 사용 가능합니다.")
     }
   }
 
@@ -50,7 +59,7 @@ export default function LoginPage() {
     router.push(`/signup`)
   }
 
-  const onCheckEnter = (e: any) => {
+  const onCheckEnter = (e) => {
     if (e.key === "Enter") {
       onClickLogin()
     }
