@@ -1,8 +1,8 @@
 import * as S from "./BoardWrite.styles"
-import { IBoardWriteUIProps } from "./boardWrite.types"
+// import { IBoardWriteUIProps } from "./boardWrite.types"
 import UploadButtons from "../../../commons/imageUpload/index"
 
-export default function BoardWriteUI(props: IBoardWriteUIProps) {
+export default function BoardWriteUI(props) {
   return (
     <S.Wrapper>
       <S.WrapperHead>
@@ -52,6 +52,15 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
         </S.WrapperBodyBody>
       </S.WrapperBody>
       <S.WrapperFoot>
+        <S.YouTube>
+          <p>유튜브</p>
+          <input
+            type="text"
+            placeholder="✎ 유튜브 링크를 복사해주세요."
+            onChange={props.onChangeYoutubeUrl}
+            defaultValue={props.data?.fetchBoard.youtubeUrl}
+          />
+        </S.YouTube>
         <S.ImageUpload>
           <UploadButtons
             onChangeFile={props.onChangeFile}

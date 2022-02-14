@@ -1,5 +1,7 @@
+import { gql, useQuery } from "@apollo/client"
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
+import { IQuery } from "../../../../commons/types/generated/types"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -10,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const LogoDiv = styled.div`
-  width: 85%;
+  width: 75%;
 `
 
 const Logo = styled.h1`
@@ -44,8 +46,21 @@ const SignupButton = styled.button`
   }
 `
 
+const FETCH_USER_LOGGED_IN = gql`
+  query fetchUserLoggedIn {
+    fetchUserLoggedIn {
+      email
+      name
+    }
+  }
+`
+
 export default function LayoutHeader() {
   const router = useRouter()
+
+  const { data } =
+    useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
+  console.log(data)
 
   function OnClickLogin() {
     router.push("/login")
@@ -64,8 +79,28 @@ export default function LayoutHeader() {
       <LogoDiv>
         <Logo onClick={onClickGoHome}>📚 Book's Memory</Logo>
       </LogoDiv>
-      <LoginButton onClick={OnClickLogin}>로그인</LoginButton>
-      <SignupButton onClick={onClickSignup}>회원가입</SignupButton>
+      {data?.fetchUserLoggedIn ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ marginRight: "10px", fontSize: "16px" }}>
+            {data?.fetchUserLoggedIn.name}님 안녕하세요😆
+          </div>
+          <LoginButton>마이페이지</LoginButton>
+        </div>
+      ) : (
+        <LoginButton onClick={OnClickLogin}>로그인</LoginButton>
+      )}
+      {data?.fetchUserLoggedIn ? (
+        <SignupButton>로그아웃</SignupButton>
+      ) : (
+        <SignupButton onClick={onClickSignup}>회원가입</SignupButton>
+      )}
     </Wrapper>
   )
 }

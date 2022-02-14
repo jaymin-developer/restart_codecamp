@@ -20,6 +20,7 @@ export const FETCH_BOARDS_BEST = gql`
       writer
       title
       contents
+      images
       createdAt
     }
   }

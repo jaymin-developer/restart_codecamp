@@ -110,6 +110,19 @@ export const WrapperFoot = styled.div`
   width: 100%;
 `
 
+export const YouTube = styled.div`
+  width: 100%;
+  padding: 20px 30px;
+  border-top: 1px solid #d4d4d4;
+  & p {
+    margin-bottom: 10px;
+  }
+  & input {
+    width: 100%;
+    border: none;
+  }
+`
+
 export const ImageUpload = styled.div`
   width: 100%;
   padding: 20px 30px;

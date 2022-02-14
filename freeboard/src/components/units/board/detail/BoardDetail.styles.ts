@@ -5,6 +5,7 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt"
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt"
 import MyLocationIcon from "@mui/icons-material/MyLocation"
 import LinkIcon from "@mui/icons-material/Link"
+import ReactPlayer from "react-player"
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -27,6 +28,7 @@ export const DetailWrapper = styled.div`
 export const Head = styled.div``
 
 export const TopMenu = styled.div`
+  font-size: 16px;
   color: darkred;
   :hover {
     cursor: pointer;
@@ -49,7 +51,7 @@ export const ProfilePhoto = styled.img`
 `
 
 export const WriterCreatedAt = styled.div`
-  width: 70%;
+  width: 80%;
 `
 export const Writer = styled.div`
   overflow: hidden;
@@ -67,8 +69,21 @@ export const Title = styled.h1`
   padding-top: 20px;
 `
 
+export const SliderBox = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  width: 80%;
+  height: 500px;
+`
+
+export const Youtube = styled(ReactPlayer)`
+  margin: auto;
+`
+
 export const Image = styled.img`
-  width: 100%;
+  margin: auto;
+  height: 100%;
 `
 
 export const MapIcon = styled(MyLocationIcon)`
@@ -132,4 +147,8 @@ export const DislikeFilledIcon = styled(ThumbDownAltIcon)`
   :hover {
     cursor: pointer;
   }
+`
+export const SliderItem = styled.img`
+  height: 350px;
+  margin: auto;
 `

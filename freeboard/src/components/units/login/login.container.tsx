@@ -1,14 +1,27 @@
 import LoginPageUI from "./login.presenter"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useRouter } from "next/router"
+import { GlobalContext } from "../../../../pages/_app"
+import { gql, useMutation } from "@apollo/client"
+import { Modal } from "antd"
+
+const LOGIN_USER = gql`
+  mutation loginUser($email: String!, $password: String!) {
+    loginUser(email: $email, password: $password) {
+      accessToken
+    }
+  }
+`
 
 export default function LoginPage() {
+  const { setAccessToken } = useContext(GlobalContext)
   const router = useRouter()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
+  const [loginUser] = useMutation(LOGIN_USER)
 
   const onChangeEmail = (event: { target: { value } }) => {
     setEmail(event.target.value)
@@ -27,31 +40,45 @@ export default function LoginPage() {
       setPasswordError("")
     }
   }
-  const onClickLogin = () => {
-    if (/^\w+@\w+\.\w+$/.test(email) === false) {
-      setEmailError("올바른 이메일 형식이 아닙니다.")
-    }
-    if (email !== "admin@book.com") {
-      setEmailError("존재하지 않는 이메일입니다.")
-    }
 
-    if (
-      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
-        password
-      ) === false
-    ) {
-      setPasswordError("8~16자의 영문,숫자,특수 문자의 조합하여 작성해주세요.")
-    }
-    if (
-      /^\w+@\w+\.\w+$/.test(email) &&
-      /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
-        password
-      ) &&
-      email === "admin@book.com" &&
-      password === "book123!@"
-    ) {
-      alert(`관리자님 환영합니다`)
-      router.push(`/boards`)
+  const onClickLogin = async () => {
+    try {
+      const result = await loginUser({
+        variables: {
+          email,
+          password,
+        },
+      })
+
+      if (/^\w+@\w+\.\w+$/.test(email) === false) {
+        setEmailError("올바른 이메일 형식이 아닙니다.")
+      }
+
+      if (
+        /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+          password
+        ) === false
+      ) {
+        setPasswordError(
+          "8~16자의 영문,숫자,특수 문자의 조합하여 작성해주세요."
+        )
+      }
+      if (
+        /^\w+@\w+\.\w+$/.test(email) &&
+        /^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/.test(
+          password
+        ) &&
+        setAccessToken
+      ) {
+        setAccessToken(result.data?.loginUser.accessToken || "")
+        // 로그인 성공 페이지로 이동하기!!
+        router.push("/boards")
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Modal.error({ content: error.message })
+        router.push("/login")
+      }
     }
   }
 

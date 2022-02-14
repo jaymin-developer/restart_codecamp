@@ -36,6 +36,7 @@ export const Email = styled.input`
   padding: 5px 10px;
   font-size: 18px;
   border: 1px solid;
+  border-radius: 7px;
 `
 
 export const ErrorMessage = styled.div`
@@ -51,6 +52,7 @@ export const Password = styled.input`
   padding: 5px 10px;
   font-size: 18px;
   border: 1px solid;
+  border-radius: 7px;
 `
 
 export const LoginButton = styled.button`
@@ -60,6 +62,7 @@ export const LoginButton = styled.button`
   background-color: darkred;
   color: white;
   font-size: 18px;
+  border-radius: 7px;
   :hover {
     cursor: pointer;
   }

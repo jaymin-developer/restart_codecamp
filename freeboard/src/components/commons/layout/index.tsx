@@ -17,11 +17,17 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 const BodyWrapper = styled.div`
+  width: 100vw;
   display: flex;
+  justify-content: center;
 `
 
 const ChildrenBody = styled.div`
-  width: 100%;
+  min-width: 70%;
+`
+
+const LayoutRightSidebar = styled.div`
+  min-width: 15%;
 `
 
 export default function Layout(props: IProps) {
@@ -41,6 +47,7 @@ export default function Layout(props: IProps) {
       <BodyWrapper>
         {isAllHidden || isHidden || <LayoutSidebar />}
         <ChildrenBody>{props.children}</ChildrenBody>
+        {isAllHidden || isHidden || <LayoutRightSidebar />}
       </BodyWrapper>
       {isHidden || <LayoutFooter />}
     </Wrapper>

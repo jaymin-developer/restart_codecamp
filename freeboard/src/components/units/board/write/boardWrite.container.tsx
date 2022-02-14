@@ -14,6 +14,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
   const [title, setTitle] = useState<string>("")
   const [images, setImages] = useState([""])
   const [contents, setContents] = useState<string>("")
+  const [youtubeUrl, setYoutubeUrl] = useState<String>("")
   const [isActive, setIsActive] = useState<boolean>(false)
 
   const [createBoard] = useMutation(CREATE_BOARD)
@@ -48,6 +49,10 @@ export default function BoardWrite(props: IBoardWriteProps) {
       : setIsActive(false)
   }
 
+  function onChangeYoutubeUrl(event: ChangeEvent<HTMLTextInputElement>) {
+    setYoutubeUrl(event.target.value)
+  }
+
   async function onClickSubmit() {
     if (writer && password && title && contents) {
       try {
@@ -58,6 +63,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
               password,
               title,
               contents,
+              youtubeUrl,
               images,
             },
           },
@@ -128,6 +134,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
       onChangePassword={onChangePassword}
       onChangeTitle={onChangeTitle}
       onChangeContents={onChangeContents}
+      onChangeYoutubeUrl={onChangeYoutubeUrl}
       onClickSubmit={onClickSubmit}
       onClickUpdate={onClickUpdate}
       onClickMovetoBoard={onClickMovetoBoard}

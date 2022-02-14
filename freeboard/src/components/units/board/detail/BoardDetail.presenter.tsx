@@ -1,9 +1,18 @@
 import * as S from "./BoardDetail.styles"
 import { getMyDate } from "../../../../commons/libraries/utils"
 import BasicMenu from "../../../commons/basicMenu/index"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 export default function BoardDetailUI(props) {
-  console.log(props.data?.fetchBoard)
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  }
   return (
     <S.Wrapper>
       <S.DetailWrapper>
@@ -17,18 +26,37 @@ export default function BoardDetailUI(props) {
                 {getMyDate(props.data?.fetchBoard?.createdAt)}
               </S.CreatedAt>
             </S.WriterCreatedAt>
-            <S.MapIcon />
+            {/* <S.MapIcon /> */}
             <S.Link />
             <BasicMenu />
           </S.WriterBox>
           <S.Title>{props.data?.fetchBoard?.title}</S.Title>
-          {props.data?.fetchBoard?.images[0] ? (
-            <S.Image
-              src={`https://storage.googleapis.com/${props.data?.fetchBoard?.images?.[0]}`}
-            />
-          ) : (
-            ""
-          )}
+          <Slider {...settings}>
+            {props.data?.fetchBoard.youtubeUrl && (
+              <S.SliderBox>
+                <S.Youtube
+                  url={props.data?.fetchBoard.youtubeUrl}
+                  width="80%"
+                  height="100%"
+                />
+              </S.SliderBox>
+            )}
+            {props.data?.fetchBoard?.images[0] && (
+              <S.SliderBox>
+                <S.Image
+                  src={`https://storage.googleapis.com/${props.data?.fetchBoard?.images?.[0]}`}
+                />
+              </S.SliderBox>
+            )}
+            {props.data?.fetchBoard?.images[1] && (
+              <S.SliderBox>
+                <S.Image
+                  src={`https://storage.googleapis.com/${props.data?.fetchBoard?.images?.[0]}`}
+                />
+              </S.SliderBox>
+            )}
+          </Slider>
+
           <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
           <S.LikeDisLikeBox>
             {props.likeClicked ? (

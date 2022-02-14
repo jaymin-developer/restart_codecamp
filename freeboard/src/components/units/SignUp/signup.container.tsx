@@ -3,16 +3,15 @@ import { useState } from "react"
 import { useMutation } from "@apollo/client"
 import { CREATE_USER } from "./SignUp.queries"
 import { useRouter } from "next/router"
+import { Modal } from "antd"
 
 export default function SignUpPage() {
   const router = useRouter()
 
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState("")
-
   const [name, setName] = useState("")
   const [nameError, setNameError] = useState("")
-
   const [password, setPassword] = useState("")
   const [passwordError, setPasswordError] = useState(
     "8~16자의 영문,숫자,특수 문자의 조합하여 작성해주세요."
@@ -97,10 +96,11 @@ export default function SignUpPage() {
             },
           },
         })
-        alert("회원가입이 되었습니다. 로그인을 해주세요.")
+        Modal.info({ content: "회원가입이 되었습니다. 로그인을 해주세요." })
+        // alert("회원가입이 되었습니다. 로그인을 해주세요.")
         router.push(`/login`)
       } catch (error) {
-        alert(error.message)
+        if (error instanceof Error) Modal.error({ content: error.message })
       }
     }
   }
