@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 80px 50px;
+  padding: 50px 0;
 `
 
 export const Head = styled.h1`

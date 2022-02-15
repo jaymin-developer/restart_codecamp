@@ -1,9 +1,10 @@
 import styled from "@emotion/styled"
-import { Rating } from "@mui/material"
+// import { Rating } from "@mui/material"
+import { Rate } from "antd"
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 10px 80px;
+  padding: 10px 0;
 `
 
 const WrapperHead = styled.div`
@@ -67,34 +68,49 @@ const BodyBottom = styled.div`
 `
 
 export default function BoardCommentWriteUI(props) {
+  function onClickCancel() {
+    props.setIsEdit(false)
+  }
   return (
     <>
       <Wrapper>
         <WrapperHead>
-          <h2>📮댓글</h2>
+          {!props.isEdit ? <h2>📮 댓글</h2> : <h2>📝 댓글 수정</h2>}
           <WrapperHeadInput>
             <HeadInput
               type="text"
               placeholder="작성자"
               onChange={props.onChangeWriter}
+              defaultValue={props.el?.writer}
+              readOnly={props.el?.writer}
             />
             <HeadInput
               type="password"
               placeholder="비밀번호"
               onChange={props.onChangePassword}
             />
-            <Rating style={{ width: "30%" }} onChange={props.onChangeStar} />
+            <Rate
+              style={{ width: "30%" }}
+              onChange={props.onChangeStar}
+              defaultValue={props.el?.rating}
+            />
+            {props.isEdit && <button onClick={onClickCancel}>취소하기</button>}
           </WrapperHeadInput>
         </WrapperHead>
         <WrapperBody>
           <BodyInput
             maxLength={100}
+            defaultValue={props.el?.contents}
             onChange={props.onChangeContents}
             placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
           />
           <BodyBottom>
             <p>{props.contents.length}/100</p>
-            <button onClick={props.onClickWrite}>등록하기</button>
+            <button
+              onClick={props.isEdit ? props.onClickUpdate : props.onClickWrite}
+            >
+              {props.isEdit ? "수정하기" : "등록하기"}
+            </button>
           </BodyBottom>
         </WrapperBody>
       </Wrapper>

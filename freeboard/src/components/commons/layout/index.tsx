@@ -23,11 +23,13 @@ const BodyWrapper = styled.div`
 `
 
 const ChildrenBody = styled.div`
-  min-width: 70%;
+  min-width: 60%;
+  max-width: 100%;
+  /* padding: 10px 80px; */
 `
 
 const LayoutRightSidebar = styled.div`
-  min-width: 15%;
+  min-width: 20%;
 `
 
 export default function Layout(props: IProps) {

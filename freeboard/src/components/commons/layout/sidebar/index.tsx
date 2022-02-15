@@ -1,16 +1,14 @@
 import styled from "@emotion/styled"
 
 const Wrapper = styled.div`
-  margin: 50px 0px 0px 50px;
+  min-width: 20%;
   padding: 20px;
-  min-width: 15%;
-  height: 700px;
+  height: 800px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   position: sticky;
-  top: 50px;
-  left: 60px;
+  top: 150px;
 `
 
 export default function LayoutNavigation() {
@@ -18,8 +16,8 @@ export default function LayoutNavigation() {
     <Wrapper>
       <iframe
         src="https://ads-partners.coupang.com/widgets.html?id=555617&template=carousel&trackingCode=AF6105147&subId=&width=300&height=700"
-        width="99%"
-        height="600"
+        width="80%"
+        height="700"
         frameBorder="0"
         scrolling="yes"
         referrerPolicy="unsafe-url"

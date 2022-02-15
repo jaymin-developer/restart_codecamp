@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client"
+import { gql, useMutation, useQuery } from "@apollo/client"
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 import { IQuery } from "../../../../commons/types/generated/types"
@@ -54,15 +54,21 @@ const FETCH_USER_LOGGED_IN = gql`
     }
   }
 `
+// const LOGOUT_USER = gql`
+//   mutation logoutUser {
+//     true
+//   }
+// `
 
 export default function LayoutHeader() {
   const router = useRouter()
+  // const [logoutUser] = useMutation(LOGOUT_USER)
 
   const { data } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
   console.log(data)
 
-  function OnClickLogin() {
+  function onClickLogin() {
     router.push("/login")
   }
 
@@ -73,6 +79,10 @@ export default function LayoutHeader() {
   function onClickGoHome() {
     router.push("/boards")
   }
+
+  // function onClickLogout() {
+  //   logoutUser()
+  // }
 
   return (
     <Wrapper>
@@ -94,7 +104,7 @@ export default function LayoutHeader() {
           <LoginButton>마이페이지</LoginButton>
         </div>
       ) : (
-        <LoginButton onClick={OnClickLogin}>로그인</LoginButton>
+        <LoginButton onClick={onClickLogin}>로그인</LoginButton>
       )}
       {data?.fetchUserLoggedIn ? (
         <SignupButton>로그아웃</SignupButton>

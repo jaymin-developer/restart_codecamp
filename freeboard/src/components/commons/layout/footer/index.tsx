@@ -18,7 +18,7 @@ export default function LayoutFooter() {
       <div>개인정보처리방침</div>
       <div>공지사항</div>
       <div>문의하기</div>
-      <div>©Book's Memory</div>
+      <div>©Book&apos;s Memory</div>
     </Wrapper>
   )
 }

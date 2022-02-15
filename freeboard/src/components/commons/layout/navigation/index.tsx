@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import { useRouter } from "next/router"
 
 const Wrapper = styled.div`
   height: 50px;
@@ -25,13 +26,21 @@ const Menu = styled.div`
 `
 
 export default function LayoutNavigation() {
+  const router = useRouter()
+
+  const onClickGoBoards = () => {
+    router.push("/boards")
+  }
+  const onClickGoRecords = () => {
+    router.push("/records")
+  }
   return (
     <Wrapper>
       <Menu>
         <button>도서정보 검색</button>
-        <button>자유게시판</button>
+        <button onClick={onClickGoBoards}>자유게시판</button>
         <button>중고마켓</button>
-        <button>나의 기록</button>
+        <button onClick={onClickGoRecords}>나의 기록</button>
       </Menu>
     </Wrapper>
   )

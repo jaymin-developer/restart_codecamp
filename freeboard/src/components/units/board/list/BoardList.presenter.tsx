@@ -31,7 +31,7 @@ export default function BoardListUI(props) {
         {props.bestListData?.fetchBoardsOfTheBest.map((el, index) => (
           <Card
             key={el._id}
-            sx={{ minWidth: "20%", maxWidth: "23%", margin: 0.5 }}
+            sx={{ minWidth: "20%", width: "23%", margin: 0.5 }}
           >
             {el.images[0] ? (
               <CardMedia

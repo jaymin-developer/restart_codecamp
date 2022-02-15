@@ -14,7 +14,13 @@ import { createUploadLink } from "apollo-upload-client"
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import { createContext, Dispatch, SetStateAction, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -44,6 +50,27 @@ function MyApp({ Component, pageProps }: AppProps) {
     accessToken,
     setAccessToken,
   }
+
+  // 브라우저가 있으면
+  // if (process.browser) {
+  //   if (localStorage.getItem("accessToken")) {
+  //     setAccessToken(localStorage.getItem("accessToken") || "");
+  //   }
+  // }
+
+  // 다른 방법 윈도우가 있을 때, 브라우저가 있을 때
+  // if (typeof window !== "undefined") {
+  //   if (localStorage.getItem("accessToken")) {
+  //     setAccessToken(localStorage.getItem("accessToken") || "");
+  //   }
+  // }
+
+  // useEffect, 서버에서 실행되지 않는다. 한 번만 실행된다.
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      setAccessToken(localStorage.getItem("accessToken") || "")
+    }
+  }, [])
 
   const uploadLink = createUploadLink({
     uri: "http://backend05.codebootcamp.co.kr/graphql",

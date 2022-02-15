@@ -49,6 +49,7 @@ export default function LoginPage() {
           password,
         },
       })
+      const accessToken = result.data?.loginUser.accessToken
 
       if (/^\w+@\w+\.\w+$/.test(email) === false) {
         setEmailError("올바른 이메일 형식이 아닙니다.")
@@ -70,7 +71,8 @@ export default function LoginPage() {
         ) &&
         setAccessToken
       ) {
-        setAccessToken(result.data?.loginUser.accessToken || "")
+        setAccessToken(accessToken || "")
+        localStorage.setItem("accessToken", accessToken || "")
         // 로그인 성공 페이지로 이동하기!!
         router.push("/boards")
       }
