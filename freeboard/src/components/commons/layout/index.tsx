@@ -34,7 +34,7 @@ const LayoutRightSidebar = styled.div`
 
 export default function Layout(props: IProps) {
   const router = useRouter()
-  const HIDDEN = ["/login", "/signup", "/boards/new"]
+  const HIDDEN = ["/login", "/signup", "/boards/new", "/usedItems/new"]
   const HIDDEN_BANNER = [`/boards/${router.query.id}`]
   const HIDDEN_ALL = ["/landing", "/"]
   const isHidden = HIDDEN.includes(router.asPath)

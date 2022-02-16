@@ -7,7 +7,9 @@ export default function BoardWriteUI(props) {
     <S.Wrapper>
       <S.WrapperHead>
         <S.CancelButton onClick={props.onClickMovetoBoard}>취소</S.CancelButton>
-        <S.WrapperTitle>{props.isEdit ? "글수정" : "글쓰기"}</S.WrapperTitle>
+        <S.WrapperTitle>
+          {props.isEdit ? "자유게시판 글수정" : "자유게시판 글쓰기"}
+        </S.WrapperTitle>
         <S.SubmitButton
           isEdit={props.isEdit}
           isActive={props.isActive}
