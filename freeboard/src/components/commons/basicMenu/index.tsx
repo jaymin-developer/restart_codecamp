@@ -10,13 +10,15 @@ import {
   IMutation,
   IMutationDeleteBoardArgs,
 } from "../../../commons/types/generated"
+import { useMoveToPage } from "../hooks/useMoveToPage"
 
 const BasicMenuButton = styled(Button)`
   color: darkred;
 `
 
-export default function BasicMenu() {
+export default function BasicMenu(props) {
   const router = useRouter()
+  const { moveToPage } = useMoveToPage()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const [deleteBoard] = useMutation<
@@ -33,7 +35,8 @@ export default function BasicMenu() {
   }
 
   const onClickMoveToEdit = () => {
-    router.push(`/boards/${router.query.id}/edit`)
+    moveToPage(`/${props.visitedPage}`)
+    // router.push(`/boards/${router.query.id}/edit`)
   }
 
   const onClickDelete = async () => {

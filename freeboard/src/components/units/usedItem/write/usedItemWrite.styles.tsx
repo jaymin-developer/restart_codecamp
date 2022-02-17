@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 
-export const Wrapper = styled.form`
+export const Wrapper = styled.div`
   max-width: 1000px;
   box-sizing: border-box;
   margin: 30px auto 30px auto;
@@ -9,6 +9,10 @@ export const Wrapper = styled.form`
   align-items: center;
   border: 1px solid #d4d4d4;
 `
+
+// export const Form = styled.form`
+//   width: 100%;
+// `
 
 export const WrapperHead = styled.div`
   padding: 0 30px;
@@ -40,7 +44,7 @@ export const SubmitButton = styled.button`
   border: none;
   font-size: 16px;
   font-weight: bold;
-  color: ${(props) => (props.isEdit || props.isActive ? "red" : "#d4d4d4")};
+  color: red;
   :hover {
     cursor: pointer;
   }
@@ -88,14 +92,6 @@ export const WrapperBodyBody = styled.div`
   justify-content: space-around;
 `
 
-export const Review = styled.input`
-  font-size: 18px;
-  width: 100%;
-  padding: 10px;
-  /* border: none; */
-  border: 1px solid #d4d4d4;
-`
-
 export const Contents = styled.textarea`
   margin-top: 20px;
   font-size: 18px;
@@ -110,7 +106,23 @@ export const Contents = styled.textarea`
 export const Location = styled.div`
   width: 100%;
   padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid #d4d4d4;
+`
+
+export const LocationLeft = styled.div`
+  width: 40%;
+`
+
+export const LocationRight = styled.div`
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  & div {
+    margin-bottom: 10px;
+  }
 `
 
 export const WrapperFoot = styled.div`
@@ -125,6 +137,12 @@ export const ImageUpload = styled.div`
 
 export const MainImage = styled.div`
   width: 100%;
-  padding: 20px 30px;
+  padding: 10px 30px;
   border-top: 1px solid #d4d4d4;
+  & div {
+    margin: 10px;
+    & label {
+      margin-right: 10px;
+    }
+  }
 `

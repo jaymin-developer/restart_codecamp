@@ -10,13 +10,34 @@ const Input = styled.input`
   display: none;
 `
 
-const Image = styled.img``
+const Images = styled.div`
+  width: 100%;
+  /* height: 210px; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 30px 10px;
+  & div {
+    width: calc(20% - 10px);
+    /* height: 210px; */
+    margin-right: 10px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  & div img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+`
 
 export default function UploadButtons(props) {
-  const onClickBig = () => {
-    window.open(`https://storage.googleapis.com/${props.images}`)
-  }
-
   return (
     <Stack
       display="flex"
@@ -32,7 +53,7 @@ export default function UploadButtons(props) {
           type="file"
           onChange={props.onChangeFile}
         />
-        이미지 업로드
+        이미지 업로드(최대 5장)
         <IconButton
           color="primary"
           aria-label="upload picture"
@@ -41,27 +62,26 @@ export default function UploadButtons(props) {
           <PhotoCamera />
         </IconButton>
       </label>
-      {props.images[0] ? (
-        <div
-          style={{
-            width: "50px",
-            height: "50px",
-            overflow: "hidden",
-          }}
-        >
-          <Image
+      {props.images.length === 0 || (
+        <div style={{ width: "100%" }}>
+          {/* <Image
             onClick={onClickBig}
             src={`https://storage.googleapis.com/${props.images}`}
             style={{
-              width: "100%",
-              height: "100%",
+              width: "20%",
+              // height: "100%",
               objectFit: "cover",
               cursor: "zoom-in",
             }}
-          />
+          /> */}
+          <Images>
+            {props.images.map((el: string, index: number) => (
+              <div key={index}>
+                <img src={`https://storage.googleapis.com/` + el} alt={el} />
+              </div>
+            ))}
+          </Images>
         </div>
-      ) : (
-        <div></div>
       )}
     </Stack>
   )

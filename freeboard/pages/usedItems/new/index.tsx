@@ -1,5 +1,8 @@
+import { withAuth } from "../../../src/components/hocs/withAuth"
 import UsedItemWrite from "../../../src/components/units/usedItem/write/usedItemWrite.container"
 
-export default function UsedItemWritePage() {
+const UsedItemWritePage = () => {
   return <UsedItemWrite />
 }
+
+export default withAuth(UsedItemWritePage)

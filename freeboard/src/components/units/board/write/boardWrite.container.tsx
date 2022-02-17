@@ -12,7 +12,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
   const [writer, setWriter] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [title, setTitle] = useState<string>("")
-  const [images, setImages] = useState([""])
+  const [images, setImages] = useState([])
   const [contents, setContents] = useState<string>("")
   const [youtubeUrl, setYoutubeUrl] = useState<String>("")
   const [isActive, setIsActive] = useState<boolean>(false)
@@ -49,7 +49,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
       : setIsActive(false)
   }
 
-  function onChangeYoutubeUrl(event: ChangeEvent<HTMLTextInputElement>) {
+  function onChangeYoutubeUrl(event: ChangeEvent<HTMLInputElement>) {
     setYoutubeUrl(event.target.value)
   }
 
@@ -107,17 +107,12 @@ export default function BoardWrite(props: IBoardWriteProps) {
 
   const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-
-    // result에는 url
     try {
       const result = await uploadFile({
-        variables: {
-          file,
-        },
+        variables: { file },
       })
-      console.log(result.data?.uploadFile.url)
-
-      setImages(result.data?.uploadFile.url || "")
+      const imageUrl = result.data?.uploadFile.url
+      setImages((prev) => [...prev, imageUrl])
     } catch (error) {
       if (error instanceof Error) alert(error.message)
     }
