@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   top: 150px;
 `
 
-export default function LayoutNavigation() {
+export default function LayoutSidebar() {
   return (
     <Wrapper>
       <iframe

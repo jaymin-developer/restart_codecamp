@@ -16,6 +16,24 @@ export const getMyDate = (MyDate) => {
   return `${yyyy}.${mm}.${dd} ${hour}:${minutes}:${second}`
 }
 
+export const getDate = (MyDate) => {
+  const aaa = new Date(MyDate)
+  // 함수 안에 비어있으면 오늘날짜, 해당 날짜 작성하면 그 날
+  const yyyy = String(aaa.getFullYear())
+  // 연
+  const mm = String(aaa.getMonth() + 1).padStart(2, "0")
+  // 0부터 시작해서 +1 을 해줘야 한다.
+  const dd = String(aaa.getDate()).padStart(2, "0")
+  // 일
+  //   aaa.getDay();
+  // 월화수목금토일을 숫자로
+  const hour = String(aaa.getHours()).padStart(2, "0")
+  const minutes = String(aaa.getMinutes()).padStart(2, "0")
+  const second = String(aaa.getSeconds()).padStart(2, "0")
+
+  return `${yyyy}.${mm}.${dd} ${hour}:${minutes}:${second}`
+}
+
 export const NowDate = () => {
   const now = new Date()
   // 함수 안에 비어있으면 오늘날짜, 해당 날짜 작성하면 그 날

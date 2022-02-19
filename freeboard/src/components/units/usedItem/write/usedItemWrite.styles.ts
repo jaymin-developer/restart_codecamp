@@ -10,9 +10,9 @@ export const Wrapper = styled.div`
   border: 1px solid #d4d4d4;
 `
 
-// export const Form = styled.form`
-//   width: 100%;
-// `
+export const Form = styled.form`
+  width: 100%;
+`
 
 export const WrapperHead = styled.div`
   padding: 0 30px;

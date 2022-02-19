@@ -5,7 +5,7 @@ import Input01 from "../../../commons/inputs/01/inputs01"
 export default function UsedItemWriteUI(props) {
   return (
     <S.Wrapper>
-      <form onSubmit={props.handleSubmit(props.onClickSubmit)}>
+      <S.Form onSubmit={props.handleSubmit(props.onClickSubmit)}>
         <S.WrapperHead>
           <S.CancelButton type="button" onClick={props.onClickMovetoUseditem}>
             취소
@@ -29,22 +29,21 @@ export default function UsedItemWriteUI(props) {
                 placeholder="도서명을 입력해주세요"
                 register={props.register("name")}
                 //   onChange={props.onChangeWriter}
-                //   defaultValue={props.data?.fetchBoard.writer}
-                //   readOnly={!!props.data?.fetchBoard.writer}
+                defaultValue={props.data?.fetchUseditem.name}
               ></Input01>
               <div style={{ color: "red", fontSize: "14px" }}>
-                {props.formState.errors.UsedItem?.message}
+                {props.formState.errors.name?.message}
               </div>
             </S.ItemName>
             <S.ItemPrice>
               <Input01
                 type="number"
                 placeholder="판매 가격을 입력해주세요."
-                onChange={props.onChangePassword}
                 register={props.register("price")}
+                defaultValue={props.data?.fetchUseditem.price}
               ></Input01>
               <div style={{ color: "red", fontSize: "14px" }}>
-                {props.formState.errors.ItemPrice?.message}
+                {props.formState.errors.price?.message}
               </div>
             </S.ItemPrice>
           </S.WrapperBodyHead>
@@ -52,27 +51,25 @@ export default function UsedItemWriteUI(props) {
             <Input01
               type="text"
               placeholder="한 줄 도서평을 입력해주세요"
-              onChange={props.onChangeReview}
-              defaultValue={props.data?.fetchBoard.title}
               register={props.register("remarks")}
+              defaultValue={props.data?.fetchUseditem.remarks}
             />
             <div style={{ color: "red" }}>
-              {props.formState.errors.Review?.message}
+              {props.formState.errors.remarks?.message}
             </div>
             <S.Contents
               placeholder="도서를 설명해주세요"
-              onChange={props.onChangeContents}
               {...props.register("contents")}
-              defaultValue={props.data?.fetchBoard.contents}
+              defaultValue={props.data?.fetchUseditem.contents}
             />
             <Input01
               type="text"
               placeholder="태그를 입력해주세요(예시 : #태그)"
               onChange={props.onChangeTitle}
-              defaultValue={props.data?.fetchBoard.title}
+              defaultValue={props.data?.fetchUseditem.tag}
             />
             <div style={{ color: "red", fontSize: "14px" }}>
-              {props.formState.errors.Contents?.message}
+              {props.formState.errors.contents?.message}
             </div>
           </S.WrapperBodyBody>
         </S.WrapperBody>
@@ -120,7 +117,7 @@ export default function UsedItemWriteUI(props) {
             </div>
           </S.MainImage>
         </S.WrapperFoot>
-      </form>
+      </S.Form>
     </S.Wrapper>
   )
 }

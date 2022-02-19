@@ -31,7 +31,7 @@ interface FormValues {
   price?: number
 }
 
-export default function UsedItemWrite() {
+export default function UsedItemWrite(props) {
   const router = useRouter()
   const [uploadFile] = useMutation(UPLOAD_FILE)
   const [createUseditem] = useMutation(CREATE_USED_ITEM)
@@ -78,7 +78,6 @@ export default function UsedItemWrite() {
   }
 
   const onClickSubmit = async (data: FormValues) => {
-    console.log(data)
     const writeVariables = {
       createUseditemInput: {
         name: data.name,
@@ -105,8 +104,14 @@ export default function UsedItemWrite() {
     router.push(`/useditems/`)
   }
 
+  // async function onClickUpdate() {
+  //   await update
+  // }
+
   return (
     <UsedItemWriteUI
+      isEdit={props.isEdit}
+      data={props.data}
       images={images}
       tag={tag}
       tags={tags}

@@ -27,7 +27,7 @@ export default function BoardDetailUI(props) {
           </S.WriterCreatedAt>
           {/* <S.MapIcon /> */}
           <S.Link />
-          <BasicMenu />
+          <BasicMenu location={props.location} />
         </S.WriterBox>
         <S.Title>{props.data?.fetchBoard?.title}</S.Title>
         <Slider {...settings}>

@@ -1,6 +1,7 @@
 import * as S from "./BoardWrite.styles"
 // import { IBoardWriteUIProps } from "./boardWrite.types"
 import UploadButtons from "../../../commons/imageUpload/index"
+import { height } from "@mui/system"
 
 export default function BoardWriteUI(props) {
   return (

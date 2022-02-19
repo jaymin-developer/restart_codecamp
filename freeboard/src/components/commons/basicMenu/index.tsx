@@ -35,21 +35,21 @@ export default function BasicMenu(props) {
   }
 
   const onClickMoveToEdit = () => {
-    moveToPage(`/${props.visitedPage}`)
-    // router.push(`/boards/${router.query.id}/edit`)
+    // moveToPage(`/${props.visitedPage}`)
+    router.push(`/${props.location}/${router.query.id}/edit`)
   }
 
-  const onClickDelete = async () => {
-    try {
-      await deleteBoard({
-        variables: { boardId: String(router.query.id) },
-      })
-      alert("삭제가 완료되었습니다.")
-      router.push(`/boards`)
-    } catch (error) {
-      alert(error.message)
-    }
-  }
+  // const onClickDelete = async () => {
+  //   try {
+  //     await deleteBoard({
+  //       variables: { boardId: String(router.query.id) },
+  //     })
+  //     alert("삭제가 완료되었습니다.")
+  //     router.push(`/boards`)
+  //   } catch (error) {
+  //     alert(error.message)
+  //   }
+  // }
 
   return (
     <div>
@@ -72,7 +72,7 @@ export default function BasicMenu(props) {
         }}
       >
         <MenuItem onClick={onClickMoveToEdit}>수정하기</MenuItem>
-        <MenuItem onClick={onClickDelete}>삭제하기</MenuItem>
+        <MenuItem onClick={props.onClickDelete}>삭제하기</MenuItem>
       </Menu>
     </div>
   )

@@ -13,6 +13,7 @@ import {
 // 왜 빨간줄이지..?
 
 export default function BoardDetail() {
+  const location = "boards"
   const router = useRouter()
   const [likeClicked, setLikeClicked] = useState(false)
   const [disLikeClicked, setDisLikeClicked] = useState(false)
@@ -58,6 +59,7 @@ export default function BoardDetail() {
 
   return (
     <BoardDetailUI
+      location={location}
       data={data}
       likeClicked={likeClicked}
       disLikeClicked={disLikeClicked}

@@ -34,12 +34,15 @@ export default function LayoutNavigation() {
   const onClickGoRecords = () => {
     router.push("/records")
   }
+  const onClickGoUsedItem = () => {
+    router.push("usedItems")
+  }
   return (
     <Wrapper>
       <Menu>
         <button>도서정보 검색</button>
         <button onClick={onClickGoBoards}>자유게시판</button>
-        <button>중고마켓</button>
+        <button onClick={onClickGoUsedItem}>중고마켓</button>
         <button onClick={onClickGoRecords}>나의 기록</button>
       </Menu>
     </Wrapper>

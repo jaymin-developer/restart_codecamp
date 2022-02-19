@@ -1,12 +1,11 @@
 import * as S from "./usedItemDetail.styles"
-import { getMyDate } from "../../../../commons/libraries/utils"
+import { getMyDate, TodayDate } from "../../../../commons/libraries/utils"
 import BasicMenu from "../../../commons/basicMenu/index"
 import { gql, useQuery } from "@apollo/client"
 import { useRouter } from "next/router"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import { useMoveToPage } from "../../../commons/hooks/useMoveToPage"
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -22,10 +21,9 @@ const FETCH_USED_ITEM = gql`
   }
 `
 
-export default function BoardDetailUI(props) {
+export default function UsedItemDetailUI(props) {
+  const location = "usedItems"
   const router = useRouter()
-  const { moveToPage, visitedPage } = useMoveToPage()
-  console.log(visitedPage)
 
   const { data } = useQuery(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.id) },
@@ -39,7 +37,9 @@ export default function BoardDetailUI(props) {
     slidesToScroll: 1,
   }
 
-  console.log(data)
+  console.log(data?.fetchUseditem)
+
+  // console.log(data)
 
   //   function onClickMovetoEdit() {
   //     router.push(`/usedItems/${router.query.id}/edit`)
@@ -59,11 +59,11 @@ export default function BoardDetailUI(props) {
           </S.WriterCreatedAt>
           {/* <S.MapIcon /> */}
           <S.Link />
-          <BasicMenu moveToPage={moveToPage} visitedPage={visitedPage} />
+          <BasicMenu location={location} onClickDelete={props.onClickDelete} />
         </S.WriterBox>
         <S.Remark>{data?.fetchUseditem?.remarks}</S.Remark>
         <S.Name>{data?.fetchUseditem?.name}</S.Name>
-        <S.Price>{data?.fetchUseditem?.price}</S.Price>
+        {/* <S.Price>{data?.fetchUseditem?.price}</S.Price> */}
         <Slider {...settings}>
           {data?.fetchUseditem.youtubeUrl && (
             <S.SliderBox>

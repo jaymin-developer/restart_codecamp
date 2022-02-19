@@ -17,7 +17,7 @@ const Images = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 10px 30px 10px;
+  /* padding: 10px 30px 10px; */
   & div {
     width: calc(20% - 10px);
     /* height: 210px; */
