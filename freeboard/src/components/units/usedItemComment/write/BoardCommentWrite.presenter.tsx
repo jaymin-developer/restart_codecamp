@@ -1,6 +1,4 @@
 import styled from "@emotion/styled"
-// import { Rating } from "@mui/material"
-import { Rate } from "antd"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,15 +15,6 @@ const WrapperHeadInput = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`
-
-const HeadInput = styled.input`
-  width: 30%;
-  height: 50px;
-  padding: 20px;
-  margin-right: 10px;
-  border: 1px solid #bdbdbd;
-  border-radius: 10px;
 `
 
 const WrapperBody = styled.div`
@@ -67,7 +56,7 @@ const BodyBottom = styled.div`
   }
 `
 
-export default function BoardCommentWriteUI(props) {
+export default function UsedItemQuestionWriteUI(props) {
   function onClickCancel() {
     props.setIsEdit(false)
   }
@@ -77,23 +66,6 @@ export default function BoardCommentWriteUI(props) {
         <WrapperHead>
           {!props.isEdit ? <h2>📮 댓글</h2> : <h2>📝 댓글 수정</h2>}
           <WrapperHeadInput>
-            <HeadInput
-              type="text"
-              placeholder="작성자"
-              onChange={props.onChangeWriter}
-              defaultValue={props.el?.writer}
-              readOnly={props.el?.writer}
-            />
-            <HeadInput
-              type="password"
-              placeholder="비밀번호"
-              onChange={props.onChangePassword}
-            />
-            <Rate
-              style={{ width: "30%" }}
-              onChange={props.onChangeStar}
-              defaultValue={props.el?.rating}
-            />
             {props.isEdit && <button onClick={onClickCancel}>취소하기</button>}
           </WrapperHeadInput>
         </WrapperHead>

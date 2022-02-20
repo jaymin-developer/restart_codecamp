@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client"
 import styled from "@emotion/styled"
 import { useEffect, useState } from "react"
 import { TodayDate } from "../../../../commons/libraries/utils"
@@ -21,10 +20,6 @@ export default function LayoutSidebar2() {
   useEffect(() => {
     console.log("시작")
     setList(JSON.parse(localStorage.getItem(`${TodayDate()}`) || "[]"))
-    return () => {
-      console.log("바이")
-      setList(JSON.parse(localStorage.getItem(`${TodayDate()}`) || "[]"))
-    }
   }, [])
 
   return (

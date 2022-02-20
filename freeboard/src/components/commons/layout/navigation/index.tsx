@@ -35,7 +35,7 @@ export default function LayoutNavigation() {
     router.push("/records")
   }
   const onClickGoUsedItem = () => {
-    router.push("usedItems")
+    router.push("/usedItems")
   }
   return (
     <Wrapper>

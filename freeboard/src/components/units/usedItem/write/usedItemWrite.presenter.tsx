@@ -5,7 +5,13 @@ import Input01 from "../../../commons/inputs/01/inputs01"
 export default function UsedItemWriteUI(props) {
   return (
     <S.Wrapper>
-      <S.Form onSubmit={props.handleSubmit(props.onClickSubmit)}>
+      <S.Form
+        onSubmit={
+          props.ieEdit
+            ? props.handleSubmit(props.onClickUpdate)
+            : props.handleSubmit(props.onClickSubmit)
+        }
+      >
         <S.WrapperHead>
           <S.CancelButton type="button" onClick={props.onClickMovetoUseditem}>
             취소
@@ -13,11 +19,7 @@ export default function UsedItemWriteUI(props) {
           <S.WrapperTitle>
             {props.isEdit ? "상품 수정" : "상품 등록"}
           </S.WrapperTitle>
-          <S.SubmitButton
-            isEdit={props.isEdit}
-            isActive={props.isActive}
-            // onClick={props.isEdit && props.onClickUpdate}
-          >
+          <S.SubmitButton isEdit={props.isEdit} isActive={props.isActive}>
             {props.isEdit ? "수정" : "등록"}
           </S.SubmitButton>
         </S.WrapperHead>

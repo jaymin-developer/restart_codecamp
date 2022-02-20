@@ -1,11 +1,16 @@
 import UsedItemWriteUI from "./usedItemWrite.presenter"
-import { ChangeEvent, KeyboardEvent, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useRouter } from "next/router"
-import { CREATE_USED_ITEM, UPLOAD_FILE } from "./usedItemWrite.queries"
+import {
+  CREATE_USED_ITEM,
+  UPDATE_USED_ITEM,
+  UPLOAD_FILE,
+} from "./usedItemWrite.queries"
 import { useMutation } from "@apollo/client"
+import { Modal } from "antd"
 
 const schema = yup.object().shape({
   name: yup
@@ -35,16 +40,25 @@ export default function UsedItemWrite(props) {
   const router = useRouter()
   const [uploadFile] = useMutation(UPLOAD_FILE)
   const [createUseditem] = useMutation(CREATE_USED_ITEM)
+  const [updateUseditem] = useMutation(UPDATE_USED_ITEM)
   const [images, setImages] = useState([])
   const [tags, setTags] = useState<string[]>([])
   const [tag, setTag] = useState("")
   // const fileRef = useRef<HTMLInputElement>(null)
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, setValue } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
     // 리액트 훅 폼과 연결한다.
   })
+
+  useEffect(() => {
+    setValue("name", props.data?.fetchUseditem.name)
+    setValue("remarks", props.data?.fetchUseditem.remarks)
+    setValue("contents", props.data?.fetchUseditem.contents)
+    setValue("price", props.data?.fetchUseditem.price)
+    setValue("images", props.data?.fetchUseditem.images)
+  }, [props.data])
 
   const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -104,9 +118,26 @@ export default function UsedItemWrite(props) {
     router.push(`/useditems/`)
   }
 
-  // async function onClickUpdate() {
-  //   await update
-  // }
+  const onClickUpdate = async (data: FormValues) => {
+    try {
+      await updateUseditem({
+        variables: {
+          useditemId: router.query.id,
+          updateUseditemInput: {
+            name: data.name,
+            remarks: data.remarks,
+            contents: data.contents,
+            price: Number(data.price),
+            images: images,
+          },
+        },
+      })
+      Modal.success({ content: "수정이 완료되었습니다." })
+      router.push(`/usedItems/${router.query.id}`)
+    } catch (error) {
+      Modal.error({ content: error.message })
+    }
+  }
 
   return (
     <UsedItemWriteUI
@@ -119,6 +150,7 @@ export default function UsedItemWrite(props) {
       handleSubmit={handleSubmit}
       formState={formState}
       onClickSubmit={onClickSubmit}
+      onClickUpdate={onClickUpdate}
       onChangeFile={onChangeFile}
       onClickMovetoUseditem={onClickMovetoUseditem}
       onChangeTag={onChangeTag}

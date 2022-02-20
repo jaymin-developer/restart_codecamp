@@ -95,6 +95,7 @@ export default function BoardCommentListItemUI(props) {
           },
         ],
       })
+      setIsOpenDeleteModal(false)
     } catch (error) {
       Modal.error({ content: error.message })
     }

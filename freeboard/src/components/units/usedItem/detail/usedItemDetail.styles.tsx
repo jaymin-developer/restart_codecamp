@@ -113,7 +113,7 @@ export const Contents = styled.div`
   max-width: 1500px;
   table-layout: fixed;
   word-wrap: break-word;
-  padding-top: 20px;
+  padding-top: 50px;
 `
 
 export const LikeDisLikeBox = styled.div`

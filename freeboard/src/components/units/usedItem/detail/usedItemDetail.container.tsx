@@ -22,9 +22,10 @@ const BuyButton = styled.button`
   width: 200px;
   height: 70px;
   bottom: 0px;
-  background-color: darkred;
+  background-color: #e79d9d;
   color: white;
   position: fixed;
+  z-index: 1;
 `
 
 export default function UsedItemDetail() {
@@ -41,6 +42,7 @@ export default function UsedItemDetail() {
         variables: { useditemId: String(router.query.id) },
       })
       alert("삭제가 완료되었습니다.")
+      router.push("/usedItems")
     } catch (error) {
       alert(error.message)
     }
@@ -52,8 +54,7 @@ export default function UsedItemDetail() {
         style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
       >
         <BuyButton>
-          {data?.fetchUseditem.name} : {data?.fetchUseditem?.price}원 <br />{" "}
-          구매하기
+          {data?.fetchUseditem?.name} <br /> 구매하기
         </BuyButton>
       </div>
     </>

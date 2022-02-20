@@ -2,60 +2,41 @@ import { useMutation } from "@apollo/client"
 import { ChangeEvent, useState } from "react"
 import BoardCommentWriteUI from "./BoardCommentWrite.presenter"
 import {
-  CREATE_BOARD_COMMENT,
-  UPDATE_BOARD_COMMENT,
+  CREATE_USED_ITEM_QUESTION,
+  UPDATE_USED_ITEM_QUESTION,
 } from "./BoardCommentWrite.queries"
-import { FETCH_BOARD_COMMENTS } from "../list/BoardCommentList.queries"
+import { FETCH_USED_ITEM_QUESTIONS } from "../list/BoardCommentList.queries"
 import { useRouter } from "next/router"
 
-export default function UsedItemCommentWrite(props) {
+export default function UsedItemQuestionWrite(props) {
   const router = useRouter()
-  const [writer, setWriter] = useState("")
-  const [password, setPassword] = useState("")
   const [contents, setContents] = useState("")
-  const [star, setStar] = useState(0)
 
-  const [createBoardComment] = useMutation(CREATE_BOARD_COMMENT)
-  const [updateBoardComment] = useMutation(UPDATE_BOARD_COMMENT)
-
-  function onChangeWriter(event: ChangeEvent<HTMLInputElement>) {
-    setWriter(event.target.value)
-  }
-
-  function onChangePassword(event: ChangeEvent<HTMLInputElement>) {
-    setPassword(event.target.value)
-  }
+  const [createUseditemQuestion] = useMutation(CREATE_USED_ITEM_QUESTION)
+  const [updateUseditemQuestion] = useMutation(UPDATE_USED_ITEM_QUESTION)
 
   const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(event.target.value)
   }
 
-  function onChangeStar(value) {
-    setStar(value)
-    // console.log(event.target.value)
-    // console.log(typeof event.target.value)
-  }
-
   async function onClickWrite() {
-    if (writer && password && contents) {
+    if (contents) {
       try {
-        await createBoardComment({
+        await createUseditemQuestion({
           variables: {
-            createBoardCommentInput: {
-              writer,
-              password,
+            createUseditemQuestionInput: {
               contents,
-              rating: Number(star),
             },
-            boardId: String(router.query.id),
+            useditemId: String(router.query.id),
           },
           refetchQueries: [
             {
-              query: FETCH_BOARD_COMMENTS,
-              variables: { boardId: String(router.query.id) },
+              query: FETCH_USED_ITEM_QUESTIONS,
+              variables: { useditemId: String(router.query.id) },
             },
           ],
         })
+        alert("성공")
       } catch (error) {
         alert(error.message)
       }
@@ -69,28 +50,24 @@ export default function UsedItemCommentWrite(props) {
       alert("내용이 수정되지 않았습니다.")
       return
     }
-    if (!password) {
-      alert("비밀번호가 입력되지 않았습니다.")
-      return
-    }
 
     try {
       // if (!props.el?._id) return;
 
-      const updateBoardCommentInput = {}
-      if (contents) updateBoardCommentInput.contents = contents
-      if (star !== props.el.rating) updateBoardCommentInput.rating = star
+      const updateUseditemQuestionInput = {}
+      if (contents) updateUseditemQuestionInput.contents = contents
 
-      await updateBoardComment({
+      await updateUseditemQuestion({
         variables: {
-          updateBoardCommentInput,
-          password: password,
-          boardCommentId: props.el?._id,
+          updateUseditemQuestionInput: {
+            contents,
+          },
+          useditemQuestionId: props.el?._id,
         },
         refetchQueries: [
           {
-            query: FETCH_BOARD_COMMENTS,
-            variables: { boardId: router.query.id },
+            query: FETCH_USED_ITEM_QUESTIONS,
+            variables: { useditemId: router.query.id },
           },
         ],
       })
@@ -103,9 +80,6 @@ export default function UsedItemCommentWrite(props) {
   return (
     <BoardCommentWriteUI
       contents={contents}
-      onChangeWriter={onChangeWriter}
-      onChangePassword={onChangePassword}
-      onChangeStar={onChangeStar}
       onChangeContents={onChangeContents}
       onClickWrite={onClickWrite}
       onClickUpdate={onClickUpdate}

@@ -134,7 +134,7 @@ export default function BoardListUI(props) {
                   ) : (
                     <span></span>
                   )}
-                  {console.log(NowDate().slice(0, 10).split(".").join(""))}
+                  {/* {console.log(NowDate().slice(0, 10).split(".").join(""))} */}
                   작성일자 : {getMyDate(el.createdAt)}
                 </Typography>
                 <Typography

@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
+import ItemList from "../../../commons/itemlist/itemlist"
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -37,20 +38,12 @@ export default function UsedItemDetailUI(props) {
     slidesToScroll: 1,
   }
 
-  console.log(data?.fetchUseditem)
-
-  // console.log(data)
-
-  //   function onClickMovetoEdit() {
-  //     router.push(`/usedItems/${router.query.id}/edit`)
-  //   }
-
   return (
     <S.Wrapper>
       <S.DetailWrapper>
         <S.TopMenu onClick={props.onClickMoveToList}> 중고마켓 </S.TopMenu>
         <S.WriterBox>
-          <S.ProfilePhoto src="https://us.123rf.com/450wm/3t0n4k/3t0n4k1902/3t0n4k190200018/125360306-%EC%B1%85-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B8%B0%ED%98%B8-%EB%94%94%EC%9E%90%EC%9D%B8%EC%9E%85%EB%8B%88%EB%8B%A4-%ED%95%99%EC%8A%B5-%EA%B5%90%EC%9C%A1-%EC%84%9C%EC%A0%90-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%A0%88%EC%9D%B4-%EC%85%98.jpg?ver=6" />
+          <S.ProfilePhoto src="/images/defaultbook.png" />
           <S.WriterCreatedAt>
             <S.Writer>판매자</S.Writer>
             <S.CreatedAt>
@@ -89,6 +82,7 @@ export default function UsedItemDetailUI(props) {
 
         <div>tags :</div>
       </S.DetailWrapper>
+      <ItemList />
     </S.Wrapper>
   )
 }

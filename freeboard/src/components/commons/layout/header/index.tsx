@@ -66,7 +66,6 @@ export default function LayoutHeader() {
 
   const { data } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
-  console.log(data)
 
   function onClickLogin() {
     router.push("/login")

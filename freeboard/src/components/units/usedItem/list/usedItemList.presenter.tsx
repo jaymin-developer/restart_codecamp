@@ -49,7 +49,6 @@ const Word = styled.span`
 `
 
 export default function UsedItemListUI() {
-  const [basketItems, setBasketItems] = useState([])
   const router = useRouter()
   const { data, fetchMore } = useQuery(FETCH_USED_ITEMS, {
     variables: { page: 1 },
@@ -76,8 +75,12 @@ export default function UsedItemListUI() {
 
   const onClickMoveToUsedItemDetail = (el) => (event) => {
     const basket = JSON.parse(localStorage.getItem(`${TodayDate()}`) || "[]")
-    // if (localStorage.key(basket) === TodayDate())
-    basket.push(el)
+    // if (localStorage.key(localStorage.indexOf(basket)) === TodayDate())
+    // 바스켓은 배열
+
+    if (JSON.stringify(localStorage).includes(el._id) === false) {
+      basket.push(el)
+    }
     localStorage.setItem(`${TodayDate()}`, JSON.stringify(basket))
     router.push(`/usedItems/${event.currentTarget.id}`)
   }
@@ -163,28 +166,17 @@ export default function UsedItemListUI() {
                 }}
                 //   onClick={props.onClickMoveToBoardDetail}
               >
-                {el.images[0] ? (
-                  <img
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      margin: "auto",
-                    }}
-                    src={`https://storage.googleapis.com/${el.images[0]}`}
-                  />
-                ) : (
-                  <img
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      backgroundColor: "red",
-                      margin: "auto",
-                    }}
-                    src={
-                      "https://us.123rf.com/450wm/3t0n4k/3t0n4k1902/3t0n4k190200018/125360306-%EC%B1%85-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EA%B8%B0%ED%98%B8-%EB%94%94%EC%9E%90%EC%9D%B8%EC%9E%85%EB%8B%88%EB%8B%A4-%ED%95%99%EC%8A%B5-%EA%B5%90%EC%9C%A1-%EC%84%9C%EC%A0%90-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%A0%88%EC%9D%B4-%EC%85%98.jpg?ver=6"
-                    }
-                  />
-                )}
+                <img
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    margin: "auto",
+                  }}
+                  src={`https://storage.googleapis.com/${el.images[0]}`}
+                  onError={(e) => {
+                    e.currentTarget.src = "/images/defaultbook.png"
+                  }}
+                />
                 <CardContent style={{ width: "85%" }}>
                   <Typography
                     sx={{ fontSize: 14 }}
@@ -200,7 +192,6 @@ export default function UsedItemListUI() {
                     ) : (
                       <span></span>
                     )}
-                    {/* {console.log(NowDate().slice(0, 10).split(".").join(""))} */}
                     작성일자 : {getMyDate(el.createdAt)}
                   </Typography>
                   <Typography
