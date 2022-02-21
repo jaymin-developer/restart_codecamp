@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const LogoDiv = styled.div`
-  width: 75%;
+  width: 70%;
 `
 
 const Logo = styled.h1`
@@ -54,15 +54,15 @@ const FETCH_USER_LOGGED_IN = gql`
     }
   }
 `
-// const LOGOUT_USER = gql`
-//   mutation logoutUser {
-//     true
-//   }
-// `
+const LOGOUT_USER = gql`
+  mutation logoutUser {
+    true
+  }
+`
 
 export default function LayoutHeader() {
   const router = useRouter()
-  // const [logoutUser] = useMutation(LOGOUT_USER)
+  const [logoutUser] = useMutation(LOGOUT_USER)
 
   const { data } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
@@ -79,14 +79,14 @@ export default function LayoutHeader() {
     router.push("/boards")
   }
 
-  // function onClickLogout() {
-  //   logoutUser()
-  // }
+  function onClickLogOut() {
+    logoutUser()
+  }
 
   return (
     <Wrapper>
       <LogoDiv>
-        <Logo onClick={onClickGoHome}>📚 Book's Memory</Logo>
+        <Logo onClick={onClickGoHome}>📚 Book&apos;s Memory</Logo>
       </LogoDiv>
       {data?.fetchUserLoggedIn ? (
         <div
@@ -106,7 +106,7 @@ export default function LayoutHeader() {
         <LoginButton onClick={onClickLogin}>로그인</LoginButton>
       )}
       {data?.fetchUserLoggedIn ? (
-        <SignupButton>로그아웃</SignupButton>
+        <SignupButton onClick={onClickLogOut}>로그아웃</SignupButton>
       ) : (
         <SignupButton onClick={onClickSignup}>회원가입</SignupButton>
       )}

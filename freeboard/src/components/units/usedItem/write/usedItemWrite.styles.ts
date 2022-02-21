@@ -1,4 +1,7 @@
 import styled from "@emotion/styled"
+// import dynamic from "next/dynamic"
+
+// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 
 export const Wrapper = styled.div`
   max-width: 1000px;
@@ -92,15 +95,15 @@ export const WrapperBodyBody = styled.div`
   justify-content: space-around;
 `
 
-export const Contents = styled.textarea`
+export const Contents = styled.div`
   margin-top: 20px;
   font-size: 18px;
   width: 100%;
-  height: 300px;
-  resize: none;
-  padding: 10px;
-  border: 1px solid #d4d4d4;
-  /* border: none; */
+  /* height: 300px; */
+  /* resize: none; */
+  /* padding: 10px; */
+  /* border: 1px solid #d4d4d4; */
+  border: none;
 `
 
 export const Location = styled.div`

@@ -46,7 +46,7 @@ export default function UsedItemWrite(props) {
   const [tag, setTag] = useState("")
   // const fileRef = useRef<HTMLInputElement>(null)
 
-  const { register, handleSubmit, formState, setValue } = useForm({
+  const { register, handleSubmit, formState, setValue, trigger } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
     // 리액트 훅 폼과 연결한다.
@@ -59,6 +59,11 @@ export default function UsedItemWrite(props) {
     setValue("price", props.data?.fetchUseditem.price)
     setValue("images", props.data?.fetchUseditem.images)
   }, [props.data])
+
+  const handleChange = (value: string) => {
+    setValue("contents", value === "<p><br></p>" ? "" : value)
+    trigger("contents")
+  }
 
   const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -92,6 +97,11 @@ export default function UsedItemWrite(props) {
   }
 
   const onClickSubmit = async (data: FormValues) => {
+    if (!(data.name && data.remarks && data.price && data.contents)) {
+      Modal.warn({ content: "필수 입력 사항입니다!" })
+      return
+    }
+
     const writeVariables = {
       createUseditemInput: {
         name: data.name,
@@ -149,6 +159,7 @@ export default function UsedItemWrite(props) {
       register={register}
       handleSubmit={handleSubmit}
       formState={formState}
+      handleChange={handleChange}
       onClickSubmit={onClickSubmit}
       onClickUpdate={onClickUpdate}
       onChangeFile={onChangeFile}

@@ -1,8 +1,8 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client"
 import {
   IQuery,
   IQueryFetchBoardArgs,
-} from "../../src/commons/types/generated/types";
+} from "../../src/commons/types/generated/types"
 
 const FETCH_BOARDS = gql`
   query fetchBoards {
@@ -13,13 +13,13 @@ const FETCH_BOARDS = gql`
       contents
     }
   }
-`;
+`
 
 const DELETE_BOARD = gql`
   mutation deleteBoard($boardId: ID!) {
     deleteBoard(boardId: $boardId)
   }
-`;
+`
 
 const CREATE_BOARD = gql`
   mutation createBoard($createBoardInput: CreateBoardInput!) {
@@ -30,15 +30,15 @@ const CREATE_BOARD = gql`
       contents
     }
   }
-`;
+`
 
 export default function ApolloCacheStatePage() {
-  const [deleteBoard] = useMutation(DELETE_BOARD);
-  const [createBoard] = useMutation(CREATE_BOARD);
+  const [deleteBoard] = useMutation(DELETE_BOARD)
+  const [createBoard] = useMutation(CREATE_BOARD)
 
   const { data } = useQuery<Pick<IQuery, "fetchBoards">, IQueryFetchBoardArgs>(
     FETCH_BOARDS
-  );
+  )
 
   //   가장 가까운 애에다가 async
   const onClickDelete = (boardId: string) => async () => {
@@ -48,7 +48,7 @@ export default function ApolloCacheStatePage() {
       variables: { boardId },
       // refetchQueries: []
       update(cache, { data }) {
-        const deletedId = data.deleteBoard;
+        const deletedId = data.deleteBoard
         // data.deleteBoard랑 boardId 중에 활용하면 된다.
         // cache는 기존 데이터, {data}는 딜리트 하고 받는 데이터
         cache.modify({
@@ -59,14 +59,14 @@ export default function ApolloCacheStatePage() {
               // 함수를 읽을 수 있게, el._id 읽을 수가 없다.
               const filteredPrev = prev.filter(
                 (el) => readField("_id", el) !== deletedId // el._id가 안되므로 readField를 사용
-              );
-              return [...filteredPrev];
+              )
+              return [...filteredPrev]
             },
           },
-        });
+        })
       },
-    });
-  };
+    })
+  }
 
   const onClickSubmit = async () => {
     //   등록하기 로직
@@ -85,14 +85,14 @@ export default function ApolloCacheStatePage() {
         cache.modify({
           fields: {
             fetchBoards: (prev) => {
-              return [data.createBoard, ...prev]; // [{writer:"영희", password:"1234"},],{기존 30개}
+              return [data.createBoard, ...prev] // [{writer:"영희", password:"1234"},],{기존 30개}
             },
           },
           // 필드는 패치프로덕트 등
-        });
+        })
       },
-    });
-  };
+    })
+  }
 
   return (
     <div>
@@ -107,5 +107,5 @@ export default function ApolloCacheStatePage() {
       <button onClick={onClickSubmit}>등록하기</button>
       {/* 등록하기는 특정 아이디 없음 */}
     </div>
-  );
+  )
 }

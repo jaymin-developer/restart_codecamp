@@ -3,8 +3,8 @@ import Box from "@mui/material/Box"
 import Card from "@mui/material/Card"
 import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
-import CardMedia from "@mui/material/CardMedia"
-import Button from "@mui/material/Button"
+// import CardMedia from "@mui/material/CardMedia"
+// import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import {
   getMyDate,
@@ -15,7 +15,7 @@ import styled from "@emotion/styled"
 import { gql, useQuery } from "@apollo/client"
 import InfiniteScroll from "react-infinite-scroller"
 import { useRouter } from "next/router"
-import { useState } from "react"
+// import { useState } from "react"
 
 const FETCH_USED_ITEMS = gql`
   query fetchUseditems($isSoldout: Boolean, $search: String, $page: Int) {
@@ -35,18 +35,18 @@ const FETCH_USED_ITEMS = gql`
   }
 `
 
-interface Iprops {
-  isMatched: boolean
-}
+// interface Iprops {
+//   isMatched: boolean
+// }
 
-const CardActionsDiv = styled(CardActions)`
-  display: flex;
-  justify-content: flex-end;
-`
+// const CardActionsDiv = styled(CardActions)`
+//   display: flex;
+//   justify-content: flex-end;
+// `
 
-const Word = styled.span`
-  color: ${(props: Iprops) => (props.isMatched ? "red" : "black")};
-`
+// const Word = styled.span`
+//   color: ${(props: Iprops) => (props.isMatched ? "red" : "black")};
+// `
 
 export default function UsedItemListUI() {
   const router = useRouter()

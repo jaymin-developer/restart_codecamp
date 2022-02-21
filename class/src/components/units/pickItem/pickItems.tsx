@@ -60,3 +60,128 @@ export default function PickItems(props) {
     </div>
   )
 }
+
+import { gql, useQuery } from "@apollo/client"
+import { useRouter } from "next/router"
+import {
+  IBoard,
+  IQuery,
+  IQueryFetchBoardsArgs,
+} from "../../../src/commons/types/generated/types"
+
+const FETCH_BOARDS = gql`
+  query fetchBoards {
+    fetchBoards {
+      _id
+      writer
+      title
+      contents
+      createdAt
+    }
+  }
+`
+
+// export default function QuizPage() {
+//   const router = useRouter();
+//   const { data } = useQuery<Pick<IQuery, "fetchBoards">, IQueryFetchBoardsArgs>(
+//     FETCH_BOARDS
+//   );
+
+//   const onClickBasket = (el: IBoard) => () => {
+//     const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+//     const temp = baskets.filter((bel: IBoard) => bel._id === el._id);
+//     if (temp.length === 1) {
+//       alert("이미 장바구니에 존재한다.");
+//       return;
+//     }
+//     const { _typename, ...prev } = el;
+//     baskets.push(prev);
+//     localStorage.setItem("basket", JSON.stringify(baskets));
+//   };
+
+//   const onClickDeleteBasket = (el: IBoard) => () => {
+//     const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+
+//     for (let i = 0; i < baskets.length; i++) {
+//       if (baskets[i]._id === el._id) {
+//         baskets.splice(i, 1);
+//       }
+//     }
+//     localStorage.setItem("basket", JSON.stringify(baskets));
+//   };
+//   const onClickMoveToLogin = () => {
+//     router.push("/quiz06/main");
+//   };
+//   return (
+//     <div>
+//       <div>
+//         {data?.fetchBoards.map((el) => (
+//           <div key={el._id}>
+//             <span>{el.writer}</span>
+//             <span>{el.title}</span>
+//             <span>{el.contents}</span>
+//             <span>{el.createdAt}</span>
+//             <button onClick={onClickBasket(el)}>게시물 담기</button>
+//             <button onClick={onClickDeleteBasket(el)}>담기 취소</button>
+//           </div>
+//         ))}
+//       </div>
+//       <button onClick={onClickMoveToLogin}>로그인 하러 가기</button>
+//     </div>
+//   );
+// }
+
+// 건님 코드
+// import { gql, useQuery } from "@apollo/client";
+// import { useEffect, useState } from "react";
+
+// const FETCH_BOARDS = gql`
+//   query fetchBoards {
+//     fetchBoards {
+//       _id
+//       writer
+//       title
+//     }
+//   }
+// `;
+
+// export default function Quiz060101() {
+//   const { data } = useQuery(FETCH_BOARDS);
+//   const [items, setItems] = useState<any>([]);
+//   const onClickAdd = (item: any) => (_: any) => {
+//     const items = JSON.parse(localStorage.getItem("0601") || "[]");
+//     items.push(item);
+//     localStorage.setItem("0601", JSON.stringify(items));
+//     setItems(items);
+//   };
+
+//   useEffect(() => {
+//     console.log(JSON.parse(localStorage.getItem("0601")));
+//     setItems(JSON.parse(localStorage.getItem("0601") || "[]"));
+//   }, []);
+
+//   return (
+//     <div style={{ display: "flex", justifyContent: "space-between" }}>
+//       <div>
+//         {data?.fetchBoards.map((el, idx) => {
+//           return (
+//             <div key={idx}>
+//               <span>{el.writer}</span>|<span>{el.title}</span>
+//               <button onClick={onClickAdd(el)}>
+//                 {items.filter((item) => item._id === el._id).length > 0
+//                   ? "담기 취소"
+//                   : "게시물 담기"}
+//               </button>
+//             </div>
+//           );
+//         })}
+//       </div>
+//       <div>
+//         <div>장바구니</div>
+//         {items.map((el) => {
+//           return <div>{el.title}</div>;
+//         })}
+//       </div>
+//     </div>
+//   );
+// }

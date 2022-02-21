@@ -58,15 +58,15 @@ export default function ItemList() {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                width: "100%",
-                height: "100%",
+                alignItems: "center",
+                aspectRatio: "1/1",
                 cursor: "pointer",
               }}
               onClick={onClickDetail(el)}
             >
               <img
                 src={`https://storage.googleapis.com/${el.images[0]}`}
-                style={{ width: "70%", height: "70%" }}
+                style={{ width: "80%", height: "80%" }}
                 onError={(e) => {
                   e.currentTarget.src = "/images/defaultbook.png"
                 }}

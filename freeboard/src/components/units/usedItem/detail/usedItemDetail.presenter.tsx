@@ -7,6 +7,9 @@ import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import ItemList from "../../../commons/itemlist/itemlist"
+import Dompurify from "dompurify"
+import { FcLikePlaceholder, FcLike } from "react-icons/fc"
+import { values } from "lodash"
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -25,7 +28,6 @@ const FETCH_USED_ITEM = gql`
 export default function UsedItemDetailUI(props) {
   const location = "usedItems"
   const router = useRouter()
-
   const { data } = useQuery(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.id) },
   })
@@ -50,7 +52,17 @@ export default function UsedItemDetailUI(props) {
               {getMyDate(data?.fetchUseditem?.createdAt)}
             </S.CreatedAt>
           </S.WriterCreatedAt>
-          {/* <S.MapIcon /> */}
+          <FcLikePlaceholder
+            values="0"
+            style={{ fontSize: "18px" }}
+            onClick={props.onClickToggleUsedItemPick}
+          />
+          <FcLike
+            values="1"
+            style={{ fontSize: "18px" }}
+            onClick={props.onClickToggleUsedItemPick}
+          />
+          <S.MapIcon />
           <S.Link />
           <BasicMenu location={location} onClickDelete={props.onClickDelete} />
         </S.WriterBox>
@@ -78,7 +90,15 @@ export default function UsedItemDetailUI(props) {
               )
           )}
         </Slider>
-        <S.Contents>{data?.fetchUseditem?.contents}</S.Contents>
+        {process.browser ? (
+          <S.Contents
+            dangerouslySetInnerHTML={{
+              __html: Dompurify.sanitize(String(data?.fetchUseditem.contents)),
+            }}
+          ></S.Contents>
+        ) : (
+          <S.Contents></S.Contents>
+        )}
 
         <div>tags :</div>
       </S.DetailWrapper>

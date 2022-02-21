@@ -6,11 +6,12 @@ import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 import { DELETE_BOARD } from "./queries"
 import { useMutation } from "@apollo/client"
+
+import { useMoveToPage } from "../hooks/useMoveToPage"
 import {
   IMutation,
   IMutationDeleteBoardArgs,
-} from "../../../commons/types/generated"
-import { useMoveToPage } from "../hooks/useMoveToPage"
+} from "../../../commons/types/generated/types"
 
 const BasicMenuButton = styled(Button)`
   color: darkred;
@@ -39,17 +40,17 @@ export default function BasicMenu(props) {
     router.push(`/${props.location}/${router.query.id}/edit`)
   }
 
-  // const onClickDelete = async () => {
-  //   try {
-  //     await deleteBoard({
-  //       variables: { boardId: String(router.query.id) },
-  //     })
-  //     alert("삭제가 완료되었습니다.")
-  //     router.push(`/boards`)
-  //   } catch (error) {
-  //     alert(error.message)
-  //   }
-  // }
+  const onClickDeleteBoard = async () => {
+    try {
+      await deleteBoard({
+        variables: { boardId: String(router.query.id) },
+      })
+      alert("삭제가 완료되었습니다.")
+      router.push(`/boards`)
+    } catch (error) {
+      alert(error.message)
+    }
+  }
 
   return (
     <div>
@@ -72,7 +73,11 @@ export default function BasicMenu(props) {
         }}
       >
         <MenuItem onClick={onClickMoveToEdit}>수정하기</MenuItem>
-        <MenuItem onClick={props.onClickDelete}>삭제하기</MenuItem>
+        {router.pathname.includes("usedItems") ? (
+          <MenuItem onClick={props.onClickDelete}>삭제하기</MenuItem>
+        ) : (
+          <MenuItem onClick={onClickDeleteBoard}>삭제하기</MenuItem>
+        )}
       </Menu>
     </div>
   )

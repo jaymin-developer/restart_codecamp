@@ -49,7 +49,7 @@ export const ProfilePhoto = styled.img`
 `
 
 export const WriterCreatedAt = styled.div`
-  width: 80%;
+  width: 65%;
 `
 export const Writer = styled.div`
   overflow: hidden;

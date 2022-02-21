@@ -1,6 +1,10 @@
 import UploadButtons from "../../../commons/imageUpload"
 import * as S from "./usedItemWrite.styles"
 import Input01 from "../../../commons/inputs/01/inputs01"
+import dynamic from "next/dynamic"
+import "react-quill/dist/quill.snow.css"
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 
 export default function UsedItemWriteUI(props) {
   return (
@@ -59,11 +63,15 @@ export default function UsedItemWriteUI(props) {
             <div style={{ color: "red" }}>
               {props.formState.errors.remarks?.message}
             </div>
-            <S.Contents
-              placeholder="도서를 설명해주세요"
-              {...props.register("contents")}
-              defaultValue={props.data?.fetchUseditem.contents}
-            />
+            <S.Contents>
+              <ReactQuill
+                placeholder="도서를 설명해주세요"
+                onChange={props.handleChange}
+                style={{ height: "300px" }}
+                defaultValue={props.data?.fetchUseditem.contents}
+              />
+            </S.Contents>
+            {/* /> */}
             <Input01
               type="text"
               placeholder="태그를 입력해주세요(예시 : #태그)"
