@@ -83,6 +83,10 @@ export default function LayoutHeader() {
     logoutUser()
   }
 
+  function onClickGoMyPage() {
+    router.push("/mypage")
+  }
+
   return (
     <Wrapper>
       <LogoDiv>
@@ -100,7 +104,8 @@ export default function LayoutHeader() {
           <div style={{ marginRight: "10px", fontSize: "16px" }}>
             {data?.fetchUserLoggedIn.name}님 안녕하세요😆
           </div>
-          <LoginButton>마이페이지</LoginButton>
+
+          <LoginButton onClick={onClickGoMyPage}>마이페이지</LoginButton>
         </div>
       ) : (
         <LoginButton onClick={onClickLogin}>로그인</LoginButton>

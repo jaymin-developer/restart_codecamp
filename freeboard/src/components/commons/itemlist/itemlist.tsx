@@ -7,7 +7,7 @@ import { TodayDate } from "../../../commons/libraries/utils"
 import { useRouter } from "next/router"
 
 const Wrapper = styled.div`
-  /* height: 200px; */
+  min-height: 300px;
   width: 100%;
   padding: 10px;
   background-color: #b1515147;
@@ -15,15 +15,17 @@ const Wrapper = styled.div`
 `
 
 const ImgDiv = styled.div`
+  overflow: hidden;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
-  align-items: space;
-  /* width: 33%; */
+  align-items: center;
+  height: 100%;
   /* margin-left: 30px; */
-  & img {
-    width: 100%;
-  }
+  /* aspect-ratio: 1/1; */
+  /* cursor: "pointer"; */
+  /* margin-bottom: 5000px; */
+  /* & img {
+    width: 100%; */
 `
 
 export default function ItemList() {
@@ -50,7 +52,7 @@ export default function ItemList() {
 
   return (
     <Wrapper>
-      <p style={{}}> 오늘 본 상품</p>
+      <p> 오늘 본 상품</p>
       <Slider {...settings}>
         {list.map((el, index) => (
           <ImgDiv key={el._id}>
@@ -59,14 +61,17 @@ export default function ItemList() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                maxWidth: "100%",
                 aspectRatio: "1/1",
+                padding: "20px",
+                // backgroundColor: "black",
                 cursor: "pointer",
               }}
               onClick={onClickDetail(el)}
             >
               <img
                 src={`https://storage.googleapis.com/${el.images[0]}`}
-                style={{ width: "80%", height: "80%" }}
+                style={{ width: "100%", height: "100%" }}
                 onError={(e) => {
                   e.currentTarget.src = "/images/defaultbook.png"
                 }}

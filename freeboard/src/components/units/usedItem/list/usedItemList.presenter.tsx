@@ -163,6 +163,7 @@ export default function UsedItemListUI() {
                   flexDirection: "row",
                   justifyContent: "space-around",
                   cursor: "pointer",
+                  width: "100%",
                 }}
                 //   onClick={props.onClickMoveToBoardDetail}
               >

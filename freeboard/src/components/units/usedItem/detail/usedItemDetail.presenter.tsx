@@ -1,5 +1,5 @@
 import * as S from "./usedItemDetail.styles"
-import { getMyDate, TodayDate } from "../../../../commons/libraries/utils"
+import { getMyDate } from "../../../../commons/libraries/utils"
 import BasicMenu from "../../../commons/basicMenu/index"
 import { gql, useQuery } from "@apollo/client"
 import { useRouter } from "next/router"
@@ -9,7 +9,6 @@ import "slick-carousel/slick/slick-theme.css"
 import ItemList from "../../../commons/itemlist/itemlist"
 import Dompurify from "dompurify"
 import { FcLikePlaceholder, FcLike } from "react-icons/fc"
-import { values } from "lodash"
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -21,6 +20,7 @@ const FETCH_USED_ITEM = gql`
       price
       images
       createdAt
+      pickedCount
     }
   }
 `
@@ -52,16 +52,29 @@ export default function UsedItemDetailUI(props) {
               {getMyDate(data?.fetchUseditem?.createdAt)}
             </S.CreatedAt>
           </S.WriterCreatedAt>
-          <FcLikePlaceholder
-            values="0"
-            style={{ fontSize: "18px" }}
-            onClick={props.onClickToggleUsedItemPick}
-          />
-          <FcLike
-            values="1"
-            style={{ fontSize: "18px" }}
-            onClick={props.onClickToggleUsedItemPick}
-          />
+          {props.pick === 0 ? (
+            <div style={{ alignItems: "center", fontSize: "16px" }}>
+              <FcLikePlaceholder
+                style={{
+                  cursor: "pointer",
+                  marginRight: "5px",
+                }}
+                onClick={props.onClickToggleUsedItemPick}
+              />
+              <span>{data?.fetchUseditem?.pickedCount}명</span>
+            </div>
+          ) : (
+            <div style={{ alignItems: "center", fontSize: "16px" }}>
+              <FcLike
+                style={{
+                  cursor: "pointer",
+                  marginRight: "5px",
+                }}
+                onClick={props.onClickToggleUsedItemPick}
+              />
+              {data?.fetchUseditem?.pickedCount}명
+            </div>
+          )}
           <S.MapIcon />
           <S.Link />
           <BasicMenu location={location} onClickDelete={props.onClickDelete} />
