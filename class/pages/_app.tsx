@@ -1,4 +1,4 @@
-// import "../styles/globals.css"
+// import "../styles/globals.css";
 import "antd/dist/antd.css"
 import {
   ApolloClient,
@@ -6,11 +6,12 @@ import {
   ApolloProvider,
   ApolloLink,
 } from "@apollo/client"
-import { AppProps } from "next/app"
 import { Global } from "@emotion/react"
+import { AppProps } from "next/app"
 import Layout from "../src/components/commons/layout"
 import { globalStyles } from "../src/commons/styles/globalStyles"
 import { createUploadLink } from "apollo-upload-client"
+import { onError } from "@apollo/client/link/error"
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
@@ -21,6 +22,10 @@ import {
   useEffect,
   useState,
 } from "react"
+import { getAccessToken } from "../src/commons/libraries/getAccessToken"
+
+// import Head from "next/head";
+// import { IUser } from "../src/commons/types/generated/types";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -37,18 +42,27 @@ const firebaseConfig = {
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig)
 
+interface IUserInfo {
+  name?: string
+  email?: string
+  picture?: string
+}
+
 interface IGlobalContext {
   accessToken?: string
   setAccessToken?: Dispatch<SetStateAction<string>>
+  userInfo?: IUserInfo
+  setUserInfo?: Dispatch<SetStateAction<IUserInfo>>
 }
-
 export const GlobalContext = createContext<IGlobalContext>({})
-
 function MyApp({ Component, pageProps }: AppProps) {
   const [accessToken, setAccessToken] = useState("")
+  const [userInfo, setUserInfo] = useState<IUserInfo>({})
   const value = {
     accessToken,
     setAccessToken,
+    userInfo,
+    setUserInfo,
   }
 
   // 브라우저가 있으면
@@ -67,31 +81,72 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // useEffect, 서버에서 실행되지 않는다. 한 번만 실행된다.
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setAccessToken(localStorage.getItem("accessToken") || "")
-    }
+    // if (localStorage.getItem("accessToken")) {
+    //   setAccessToken(localStorage.getItem("accessToken") || "");
+    // }
+
+    getAccessToken().then((newAccessToken) => {
+      // 4. 재발급 받은 accessToken 저장하기
+      setAccessToken(newAccessToken)
+    })
   }, [])
 
+  const errorLink = onError(({ graphQLErrors, operation, forward }) => {
+    // 1. 에러를 캐치
+    if (graphQLErrors) {
+      for (const err of graphQLErrors) {
+        // 2. 해당 에러가 토큰 만료 에러인지 체크(UNAUTHENTICATED)
+        console.log(`에러 ${err}`)
+        if (err.extensions.code === "UNAUTHENTICATED") {
+          // 3. refreshToken으로 accessToken을 재발급 받기
+          getAccessToken().then((newAccessToken) => {
+            // 4. 재발급 받은 accessToken 저장하기
+            setAccessToken(newAccessToken)
+            // 5. 재발급 받은 accessToken으로 방금 실패한 쿼리 재요청하기
+            operation.setContext({
+              headers: {
+                ...operation.getContext().headers,
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            }) // 설정 변경(accessToken 바꿔치기)
+            return forward(operation) // 변경된 operation 재요청
+          })
+        }
+      }
+    }
+  })
+  console.log(errorLink)
+
   const uploadLink = createUploadLink({
-    uri: "http://backend05.codebootcamp.co.kr/graphql",
+    uri: "https://backend05.codebootcamp.co.kr/graphql",
     headers: { Authorization: `Bearer ${accessToken}` },
+    credentials: "include",
   })
 
   const client = new ApolloClient({
-    link: ApolloLink.from([uploadLink as unknown as ApolloLink]),
-    // 다른 기능들을 연결하겠다.
+    link: ApolloLink.from([errorLink, uploadLink as unknown as ApolloLink]),
     cache: new InMemoryCache(),
   })
 
   return (
-    <GlobalContext.Provider value={value}>
-      <ApolloProvider client={client}>
-        <Global styles={globalStyles} />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ApolloProvider>
-    </GlobalContext.Provider>
+    <div>
+      {/* <Head> 모든 페이지에서 카카오맵을 다운 받으므로 비효율적이라구
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey="
+          //   카카오 디벨로퍼스에서 사이트 도메인이 같아야함, 키는 백엔드에다가 두자. 
+        ></script>
+      </Head> */}
+
+      <GlobalContext.Provider value={value}>
+        <ApolloProvider client={client}>
+          <Global styles={globalStyles} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
+      </GlobalContext.Provider>
+    </div>
   )
 }
 

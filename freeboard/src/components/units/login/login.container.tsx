@@ -5,7 +5,7 @@ import { GlobalContext } from "../../../../pages/_app"
 import { gql, useMutation } from "@apollo/client"
 import { Modal } from "antd"
 
-const LOGIN_USER = gql`
+const LOGIN_USER_EXAMPLE = gql`
   mutation loginUser($email: String!, $password: String!) {
     loginUser(email: $email, password: $password) {
       accessToken
@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
-  const [loginUser] = useMutation(LOGIN_USER)
+  const [loginUser] = useMutation(LOGIN_USER_EXAMPLE)
 
   const onChangeEmail = (event: { target: { value } }) => {
     setEmail(event.target.value)
@@ -74,7 +74,7 @@ export default function LoginPage() {
         setAccessToken(accessToken || "")
         localStorage.setItem("accessToken", accessToken || "")
         // 로그인 성공 페이지로 이동하기!!
-        router.push("/boards")
+        history.back()
       }
     } catch (error) {
       if (error instanceof Error) {

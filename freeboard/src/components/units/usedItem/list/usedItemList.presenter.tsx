@@ -27,6 +27,9 @@ const FETCH_USED_ITEMS = gql`
       price
       tags
       images
+      useditemAddress {
+        address
+      }
       seller {
         name
       }
@@ -178,7 +181,7 @@ export default function UsedItemListUI() {
                     e.currentTarget.src = "/images/defaultbook.png"
                   }}
                 />
-                <CardContent style={{ width: "85%" }}>
+                <CardContent style={{ width: "40%" }}>
                   <Typography
                     sx={{ fontSize: 14 }}
                     color="text.secondary"
@@ -216,6 +219,7 @@ export default function UsedItemListUI() {
                       // ))
                     }
                   </Typography>
+
                   <Typography
                     sx={{ mb: 1.5 }}
                     color="text.secondary"
@@ -234,6 +238,20 @@ export default function UsedItemListUI() {
                     maxWidth="700px"
                   >
                     판매자 : {el.seller.name}
+                  </Typography>
+                </CardContent>
+                <CardContent style={{ width: "40%" }}>
+                  {" "}
+                  <Typography
+                    variant="body2"
+                    maxWidth="700px"
+                    display="flex"
+                    alignItems="center"
+                    height="100%"
+                    fontSize="20px"
+                  >
+                    가격 : {el.price}원<br /> 거래위치 :
+                    {el.useditemAddress?.address}
                   </Typography>
                 </CardContent>
               </Card>

@@ -108,6 +108,7 @@ export const Contents = styled.div`
 
 export const Location = styled.div`
   width: 100%;
+  height: 300px;
   padding: 20px 30px;
   display: flex;
   justify-content: space-between;
@@ -115,14 +116,14 @@ export const Location = styled.div`
 `
 
 export const LocationLeft = styled.div`
-  width: 40%;
+  width: 50%;
 `
 
 export const LocationRight = styled.div`
-  width: 60%;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   & div {
     margin-bottom: 10px;
   }

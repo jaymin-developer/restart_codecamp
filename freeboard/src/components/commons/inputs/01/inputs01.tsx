@@ -15,6 +15,7 @@ export default function Input01(props) {
       type={props.type}
       {...props.register}
       defaultValue={props.defaultValue}
+      readOnly={props.readonly}
     />
   )
 }

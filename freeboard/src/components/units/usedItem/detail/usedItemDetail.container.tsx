@@ -8,16 +8,7 @@ import {
 } from "./usedItemDetail.queries"
 import UsedItemDetailUI from "./usedItemDetail.presenter"
 import { useEffect, useState } from "react"
-
-const FETCH_USER_LOGGED_IN = gql`
-  query fetchUserLoggedIn {
-    fetchUserLoggedIn {
-      _id
-      email
-      name
-    }
-  }
-`
+import { getMyDate } from "../../../../commons/libraries/utils"
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -30,6 +21,7 @@ const FETCH_USED_ITEM = gql`
       images
       createdAt
       pickedCount
+      soldAt
     }
   }
 `
@@ -44,9 +36,25 @@ const FETCH_USED_ITEMS_PICKED = gql`
   }
 `
 
+const FETCH_USER_LOGGED_IN = gql`
+  query fetchUserLoggedIn {
+    fetchUserLoggedIn {
+      _id
+      userPoint {
+        amount
+      }
+    }
+  }
+`
+
 const CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING = gql`
   mutation createPointTransactionOfBuyingAndSelling($useritemId: ID!) {
-    createPointTransactionOfBuyingAndSelling(useritemId: $useritemId)
+    createPointTransactionOfBuyingAndSelling(useritemId: $useritemId) {
+      _id
+      name
+      remarks
+      price
+    }
   }
 `
 
@@ -63,10 +71,11 @@ const BuyButton = styled.button`
 export default function UsedItemDetail() {
   const router = useRouter()
   const [pick, setPick] = useState(0)
+  // const { data } = useQuery(FETCH_USER_LOGGED_IN)
 
   const [deleteUseditem] = useMutation(DELETE_USED_ITEM)
   const [toggleUseditemPick] = useMutation(TOGGLE_USED_ITEM_PICK)
-  const [createPointTransactionsOfLoading] = useMutation(
+  const [createPointTransactionOfBuyingAndSelling] = useMutation(
     CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING,
     { variables: { useritemId: String(router.query.id) } }
   )
@@ -82,10 +91,7 @@ export default function UsedItemDetail() {
     },
   })
 
-  const { data: userData } = useQuery(FETCH_USER_LOGGED_IN)
-
   useEffect(() => {
-    console.log(`첫번째 ${pick}`)
     if (
       pickData?.fetchUseditemsIPicked.filter(
         (el) => el._id === itemData?.fetchUseditem._id
@@ -94,7 +100,6 @@ export default function UsedItemDetail() {
       true
     ) {
       setPick(1)
-      console.log(`두번째 ${pick}`)
     }
   }, [pickData])
 
@@ -139,46 +144,15 @@ export default function UsedItemDetail() {
     }
   }
 
-  console.log(itemData?.fetchUseditem?._id)
-  console.log(pickData?.fetchUseditemsIPicked)
-
-  const onClickPayment = () => {
-    const IMP = window.IMP // 생략 가능
-    IMP.init("imp49910675") // Example: imp00000000
-
-    // IMP.request_pay(param, callback) 결제창 호출
-    IMP.request_pay(
-      {
-        // param
-        pg: "html5_inicis",
-        pay_method: "card",
-        // merchant_uid: "ORD20180131-0000011",
-        name: itemData?.fetchUseditem?.name,
-        amount: itemData?.fetchUseditem?.price,
-        buyer_email: userData?.fetchUserLoggedIn.email,
-        buyer_name: userData?.fetchUserLoggedIn.name,
-        buyer_tel: "010-4242-4242",
-        buyer_addr: "서울특별시 강남구 신사동",
-        buyer_postcode: "01181",
-        // m_redirect_url : 모바일 결제시 돌아갈 주소!!
-      },
-      (rsp) => {
-        // callback
-        if (rsp.success) {
-          // 결제 성공 시 로직,
-          createPointTransactionsOfLoading({
-            variables: { useritemId: String(router.query.id) },
-          })
-          alert("결제 완료!")
-          router.push("/")
-          // 백엔드에 결제관련 데이터 넘겨주기
-          // => 즉, 뮤테이션 실행하기!!
-          // ex, createPointTransactionsOfLoading
-        } else {
-          // 결제 실패 시 로직,
-        }
-      }
-    )
+  const onClickPayment = async () => {
+    try {
+      await createPointTransactionOfBuyingAndSelling({
+        variables: { useritemId: String(router.query.id) },
+      })
+      alert("상품 구매 완료!")
+    } catch (error) {
+      alert(error.message)
+    }
   }
 
   return (
@@ -202,9 +176,15 @@ export default function UsedItemDetail() {
       <div
         style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
       >
-        <BuyButton onClick={onClickPayment}>
-          {itemData?.fetchUseditem?.price} 원 <br /> 구매하기
-        </BuyButton>
+        {itemData?.fetchUseditem?.soldAt ? (
+          <BuyButton disabled>
+            {getMyDate(itemData?.fetchUseditem?.soldAt)} <br /> 판매완료!
+          </BuyButton>
+        ) : (
+          <BuyButton onClick={onClickPayment}>
+            {itemData?.fetchUseditem?.price} 원 <br /> 구매하기
+          </BuyButton>
+        )}
       </div>
     </>
   )

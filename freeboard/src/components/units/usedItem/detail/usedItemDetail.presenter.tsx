@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css"
 import ItemList from "../../../commons/itemlist/itemlist"
 import Dompurify from "dompurify"
 import { FcLikePlaceholder, FcLike } from "react-icons/fc"
+import { useEffect } from "react"
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -21,9 +22,21 @@ const FETCH_USED_ITEM = gql`
       images
       createdAt
       pickedCount
+      useditemAddress {
+        address
+        lat
+        lng
+      }
+      seller {
+        name
+      }
     }
   }
 `
+
+declare const window: typeof globalThis & {
+  kakao: any
+}
 
 export default function UsedItemDetailUI(props) {
   const location = "usedItems"
@@ -40,6 +53,40 @@ export default function UsedItemDetailUI(props) {
     slidesToScroll: 1,
   }
 
+  useEffect(() => {
+    // 여기서 직접 다운로드 받고, 다 받을때까지 기다렸다가 그려주기!!
+    const script = document.createElement("script") // <script></script> 태그를 만들어줌
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_MAP_API}&libraries=services&autoload=false`
+    document.head.appendChild(script) // html 문서에 head부분에 자식태그로 script를 넣어줘
+    // 이해했고
+
+    script.onload = () => {
+      window.kakao.maps.load(function () {
+        const mapContainer = document.getElementById("map") // 지도를 표시할 div
+        const mapOption = {
+          center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+          level: 3, // 지도의 확대 레벨
+        }
+
+        const map = new window.kakao.maps.Map(mapContainer, mapOption) // 지도를 생성합니다
+
+        // 마커가 표시될 위치입니다
+        const markerPosition = new window.kakao.maps.LatLng(
+          33.450701,
+          126.570667
+        )
+
+        // 마커를 생성합니다
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+        })
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map)
+      })
+    }
+  })
+
   return (
     <S.Wrapper>
       <S.DetailWrapper>
@@ -47,7 +94,7 @@ export default function UsedItemDetailUI(props) {
         <S.WriterBox>
           <S.ProfilePhoto src="/images/defaultbook.png" />
           <S.WriterCreatedAt>
-            <S.Writer>판매자</S.Writer>
+            <S.Writer>판매자 {data?.fetchUseditem?.seller.name}</S.Writer>
             <S.CreatedAt>
               {getMyDate(data?.fetchUseditem?.createdAt)}
             </S.CreatedAt>
@@ -79,6 +126,7 @@ export default function UsedItemDetailUI(props) {
           <S.Link />
           <BasicMenu location={location} onClickDelete={props.onClickDelete} />
         </S.WriterBox>
+        <div>tags :</div>
         <S.Remark>{data?.fetchUseditem?.remarks}</S.Remark>
         <S.Name>{data?.fetchUseditem?.name}</S.Name>
         {/* <S.Price>{data?.fetchUseditem?.price}</S.Price> */}
@@ -112,8 +160,11 @@ export default function UsedItemDetailUI(props) {
         ) : (
           <S.Contents></S.Contents>
         )}
+        {/* {data?.fetchUseditem.useditemAddress.lat && ( */}
+        <div id="map" style={{ width: "100%", height: "350px" }}></div>
+        {/* )} */}
 
-        <div>tags :</div>
+        <div>거래위치 : {data?.fetchUseditem.useditemAddress?.address}</div>
       </S.DetailWrapper>
       <ItemList />
     </S.Wrapper>

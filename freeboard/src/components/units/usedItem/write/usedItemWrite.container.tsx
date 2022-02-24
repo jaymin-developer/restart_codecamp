@@ -42,8 +42,12 @@ export default function UsedItemWrite(props) {
   const [createUseditem] = useMutation(CREATE_USED_ITEM)
   const [updateUseditem] = useMutation(UPDATE_USED_ITEM)
   const [images, setImages] = useState([])
+  const [address, setAddress] = useState("")
   const [tags, setTags] = useState<string[]>([])
   const [tag, setTag] = useState("")
+  const [lat, setLat] = useState(0)
+  const [lng, setLng] = useState(0)
+
   // const fileRef = useRef<HTMLInputElement>(null)
 
   const { register, handleSubmit, formState, setValue, trigger } = useForm({
@@ -109,6 +113,13 @@ export default function UsedItemWrite(props) {
         contents: data.contents,
         price: Number(data.price),
         images: images,
+        useditemAddress: {
+          address,
+          lat,
+          lng,
+        },
+        // addressDetail :
+        // },
         // tags: tags,
       },
     }
@@ -148,7 +159,6 @@ export default function UsedItemWrite(props) {
       Modal.error({ content: error.message })
     }
   }
-
   return (
     <UsedItemWriteUI
       isEdit={props.isEdit}
@@ -167,6 +177,11 @@ export default function UsedItemWrite(props) {
       onChangeTag={onChangeTag}
       onKeyUpTags={onKeyUpTags}
       onClickDeleteTag={onClickDeleteTag}
+      setAddress={setAddress}
+      setLat={setLat}
+      setLng={setLng}
+      lat={lat}
+      lng={lng}
     />
   )
 }
