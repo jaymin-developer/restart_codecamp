@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 import {
   CREATE_USED_ITEM,
   UPDATE_USED_ITEM,
-  UPLOAD_FILE,
+  // UPLOAD_FILE,
 } from "./usedItemWrite.queries"
 import { useMutation } from "@apollo/client"
 import { Modal } from "antd"
@@ -38,10 +38,18 @@ interface FormValues {
 
 export default function UsedItemWrite(props) {
   const router = useRouter()
-  const [uploadFile] = useMutation(UPLOAD_FILE)
+  // const [uploadFile] = useMutation(UPLOAD_FILE)
   const [createUseditem] = useMutation(CREATE_USED_ITEM)
   const [updateUseditem] = useMutation(UPDATE_USED_ITEM)
-  const [images, setImages] = useState([])
+  const [files, setFiles] = useState([
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+  ])
+  // const [fileUrls, setFileUrls] = useState(["", "", "", "", ""])
+  const [images, setImages] = useState(["", "", "", "", ""])
   const [address, setAddress] = useState("")
   const [tags, setTags] = useState<string[]>([])
   const [tag, setTag] = useState("")
@@ -62,6 +70,9 @@ export default function UsedItemWrite(props) {
     setValue("contents", props.data?.fetchUseditem.contents)
     setValue("price", props.data?.fetchUseditem.price)
     setValue("images", props.data?.fetchUseditem.images)
+    if (props.data?.fetchUseditem.images?.length) {
+      setImages([...props.data?.fetchUseditem.images])
+    }
   }, [props.data])
 
   const handleChange = (value: string) => {
@@ -69,16 +80,28 @@ export default function UsedItemWrite(props) {
     trigger("contents")
   }
 
-  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeFile = (index: number) => (event) => {
     const file = event.target.files?.[0]
-    try {
-      const result = await uploadFile({
-        variables: { file },
-      })
-      const imageUrl = result.data?.uploadFile.url
-      setImages((prev) => [...prev, imageUrl])
-    } catch (error) {
-      if (error instanceof Error) alert(error.message)
+    if (!file) {
+      alert("파일이 없습니다!")
+      return
+    }
+
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+    // blob: Blob 블랍, 삐랍. 사이즈가 큰 이미지 혹은 영상
+    fileReader.onload = (data) => {
+      if (typeof data.target?.result === "string") {
+        console.log("data.target?.result")
+        console.log(data.target?.result)
+        const tempUrls = [...images]
+        tempUrls[index] = data.target?.result
+        setImages(tempUrls)
+
+        const tempFiles = [...files]
+        tempFiles[index] = file
+        setFiles(tempFiles)
+      }
     }
   }
 
@@ -112,14 +135,12 @@ export default function UsedItemWrite(props) {
         remarks: data.remarks,
         contents: data.contents,
         price: Number(data.price),
-        images: images,
+        images,
         useditemAddress: {
           address,
           lat,
           lng,
         },
-        // addressDetail :
-        // },
         // tags: tags,
       },
     }
@@ -140,6 +161,10 @@ export default function UsedItemWrite(props) {
   }
 
   const onClickUpdate = async (data: FormValues) => {
+    // const currentFiles = JSON.stringify(fileUrls)
+    // const defaultFiles = JSON.stringify(props.data.fetchUseditem.images)
+    // const isChangedFiles = currentFiles !== defaultFiles
+
     try {
       await updateUseditem({
         variables: {
@@ -149,7 +174,7 @@ export default function UsedItemWrite(props) {
             remarks: data.remarks,
             contents: data.contents,
             price: Number(data.price),
-            images: images,
+            images,
           },
         },
       })
@@ -159,29 +184,35 @@ export default function UsedItemWrite(props) {
       Modal.error({ content: error.message })
     }
   }
+
+  console.log("files")
+  console.log(files)
   return (
-    <UsedItemWriteUI
-      isEdit={props.isEdit}
-      data={props.data}
-      images={images}
-      tag={tag}
-      tags={tags}
-      register={register}
-      handleSubmit={handleSubmit}
-      formState={formState}
-      handleChange={handleChange}
-      onClickSubmit={onClickSubmit}
-      onClickUpdate={onClickUpdate}
-      onChangeFile={onChangeFile}
-      onClickMovetoUseditem={onClickMovetoUseditem}
-      onChangeTag={onChangeTag}
-      onKeyUpTags={onKeyUpTags}
-      onClickDeleteTag={onClickDeleteTag}
-      setAddress={setAddress}
-      setLat={setLat}
-      setLng={setLng}
-      lat={lat}
-      lng={lng}
-    />
+    <>
+      <UsedItemWriteUI
+        isEdit={props.isEdit}
+        data={props.data}
+        files={files}
+        images={images}
+        tag={tag}
+        tags={tags}
+        register={register}
+        handleSubmit={handleSubmit}
+        formState={formState}
+        handleChange={handleChange}
+        onClickSubmit={onClickSubmit}
+        onClickUpdate={onClickUpdate}
+        onChangeFile={onChangeFile}
+        onClickMovetoUseditem={onClickMovetoUseditem}
+        onChangeTag={onChangeTag}
+        onKeyUpTags={onKeyUpTags}
+        onClickDeleteTag={onClickDeleteTag}
+        setAddress={setAddress}
+        setLat={setLat}
+        setLng={setLng}
+        lat={lat}
+        lng={lng}
+      />
+    </>
   )
 }

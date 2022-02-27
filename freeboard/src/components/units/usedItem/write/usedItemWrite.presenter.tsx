@@ -1,9 +1,11 @@
-import UploadButtons from "../../../commons/imageUpload"
+// import UploadButtons from "../../../commons/imageUpload"
 import * as S from "./usedItemWrite.styles"
 import Input01 from "../../../commons/inputs/01/inputs01"
 import dynamic from "next/dynamic"
 import "react-quill/dist/quill.snow.css"
 import { useEffect, useState } from "react"
+import { v4 as uuidv4 } from "uuid"
+import Uploads01 from "../../../commons/uploads/01/Uploads01.container"
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 declare const window: typeof globalThis & {
@@ -117,8 +119,8 @@ export default function UsedItemWriteUI(props) {
                     marker.setMap(map)
                     infowindow.close()
 
-                    props.setLat(mouseEvent.latLng.La)
-                    props.setLng(mouseEvent.latLng.Ma)
+                    props.setLat(mouseEvent.latLng.Ma)
+                    props.setLng(mouseEvent.latLng.La)
 
                     set도로명(result[0]?.road_address?.address_name)
                     set지번(result[0]?.address?.address_name)
@@ -150,17 +152,16 @@ export default function UsedItemWriteUI(props) {
           }
 
           function displayCenterInfo(result, status) {
-            if (status === window.kakao.maps.services.Status.OK) {
-              const infoDiv = document.getElementById("centerAddr")
-
-              for (let i = 0; i < result.length; i++) {
-                // 행정동의 region_type 값은 'H' 이므로
-                if (result[i].region_type === "H") {
-                  infoDiv.innerHTML = result[i].address_name
-                  break
-                }
-              }
-            }
+            // if (status === window.kakao.maps.services.Status.OK) {
+            //   const infoDiv = document.getElementById("centerAddr")
+            //   for (let i = 0; i < result.length; i++) {
+            //     // 행정동의 region_type 값은 'H' 이므로
+            //     if (result[i].region_type === "H") {
+            //       infoDiv.innerHTML = result[i].address_name
+            //       break
+            //     }
+            //   }
+            // }
           }
         }
 
@@ -260,10 +261,10 @@ export default function UsedItemWriteUI(props) {
                   minHeight: "90%",
                 }}
               >
-                <div className="hAddr">
+                {/* <div className="hAddr">
                   <span className="title">지도중심기준 행정동 주소정보</span>
                   <span id="centerAddr"></span>
-                </div>
+                </div> */}
               </div>
             </S.LocationLeft>
             <S.LocationRight>
@@ -277,10 +278,17 @@ export default function UsedItemWriteUI(props) {
             </S.LocationRight>
           </S.Location>
           <S.ImageUpload>
-            <UploadButtons
-              onChangeFile={props.onChangeFile}
-              images={props.images}
-            />
+            <p>이미지 업로드</p>
+            {props.images.map((el, index) => (
+              <Uploads01
+                key={uuidv4()}
+                index={index}
+                images={props.images}
+                files={props.files}
+                el={el}
+                onChangeFile={props.onChangeFile}
+              />
+            ))}
           </S.ImageUpload>
           <S.MainImage>
             <div>메인 사진 설정</div>

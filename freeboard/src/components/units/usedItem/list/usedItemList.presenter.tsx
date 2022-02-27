@@ -1,7 +1,6 @@
 import * as S from "./usedItemList.styles"
 import Box from "@mui/material/Box"
 import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 // import CardMedia from "@mui/material/CardMedia"
 // import Button from "@mui/material/Button"
@@ -11,7 +10,6 @@ import {
   NowDate,
   TodayDate,
 } from "../../../../commons/libraries/utils"
-import styled from "@emotion/styled"
 import { gql, useQuery } from "@apollo/client"
 import InfiniteScroll from "react-infinite-scroller"
 import { useRouter } from "next/router"
@@ -27,6 +25,7 @@ const FETCH_USED_ITEMS = gql`
       price
       tags
       images
+      pickedCount
       useditemAddress {
         address
       }
@@ -196,7 +195,7 @@ export default function UsedItemListUI() {
                     ) : (
                       <span></span>
                     )}
-                    작성일자 : {getMyDate(el.createdAt)}
+                    작성일자 : {getMyDate(el.createdAt)} ❤️ {el.pickedCount}
                   </Typography>
                   <Typography
                     id={el._id}

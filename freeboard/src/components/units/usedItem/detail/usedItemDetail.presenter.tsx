@@ -60,11 +60,17 @@ export default function UsedItemDetailUI(props) {
     document.head.appendChild(script) // html 문서에 head부분에 자식태그로 script를 넣어줘
     // 이해했고
 
+    // console.log(data?.fetchUseditem?.useditemAddress?.lat)
+    // console.log(data?.fetchUseditem?.useditemAddress?.lng)
+
     script.onload = () => {
       window.kakao.maps.load(function () {
         const mapContainer = document.getElementById("map") // 지도를 표시할 div
         const mapOption = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+          center: new window.kakao.maps.LatLng(
+            data?.fetchUseditem?.useditemAddress?.lat,
+            data?.fetchUseditem?.useditemAddress?.lng
+          ), // 지도의 중심좌표
           level: 3, // 지도의 확대 레벨
         }
 
@@ -72,8 +78,8 @@ export default function UsedItemDetailUI(props) {
 
         // 마커가 표시될 위치입니다
         const markerPosition = new window.kakao.maps.LatLng(
-          33.450701,
-          126.570667
+          data?.fetchUseditem?.useditemAddress?.lat,
+          data?.fetchUseditem?.useditemAddress?.lng
         )
 
         // 마커를 생성합니다
@@ -99,7 +105,7 @@ export default function UsedItemDetailUI(props) {
               {getMyDate(data?.fetchUseditem?.createdAt)}
             </S.CreatedAt>
           </S.WriterCreatedAt>
-          {props.pick === 0 ? (
+          {props.pick === false ? (
             <div style={{ alignItems: "center", fontSize: "16px" }}>
               <FcLikePlaceholder
                 style={{
@@ -160,11 +166,15 @@ export default function UsedItemDetailUI(props) {
         ) : (
           <S.Contents></S.Contents>
         )}
-        {/* {data?.fetchUseditem.useditemAddress.lat && ( */}
-        <div id="map" style={{ width: "100%", height: "350px" }}></div>
-        {/* )} */}
-
-        <div>거래위치 : {data?.fetchUseditem.useditemAddress?.address}</div>
+        {data?.fetchUseditem.useditemAddress.lat && (
+          <div id="map" style={{ width: "100%", height: "350px" }}></div>
+        )}
+        <div>
+          거래위치 :{" "}
+          {data?.fetchUseditem.useditemAddress?.address
+            ? data?.fetchUseditem.useditemAddress?.address
+            : "위치 정보 없음"}
+        </div>
       </S.DetailWrapper>
       <ItemList />
     </S.Wrapper>

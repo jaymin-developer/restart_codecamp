@@ -36,17 +36,6 @@ const FETCH_USED_ITEMS_PICKED = gql`
   }
 `
 
-const FETCH_USER_LOGGED_IN = gql`
-  query fetchUserLoggedIn {
-    fetchUserLoggedIn {
-      _id
-      userPoint {
-        amount
-      }
-    }
-  }
-`
-
 const CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING = gql`
   mutation createPointTransactionOfBuyingAndSelling($useritemId: ID!) {
     createPointTransactionOfBuyingAndSelling(useritemId: $useritemId) {
@@ -70,7 +59,7 @@ const BuyButton = styled.button`
 
 export default function UsedItemDetail() {
   const router = useRouter()
-  const [pick, setPick] = useState(0)
+  const [pick, setPick] = useState(false)
   // const { data } = useQuery(FETCH_USER_LOGGED_IN)
 
   const [deleteUseditem] = useMutation(DELETE_USED_ITEM)
@@ -91,6 +80,8 @@ export default function UsedItemDetail() {
     },
   })
 
+  // console.log(pickData)
+
   useEffect(() => {
     if (
       pickData?.fetchUseditemsIPicked.filter(
@@ -99,7 +90,9 @@ export default function UsedItemDetail() {
         0 ===
       true
     ) {
-      setPick(1)
+      setPick(true)
+    } else {
+      setPick(false)
     }
   }, [pickData])
 
@@ -121,7 +114,7 @@ export default function UsedItemDetail() {
 
   const onClickToggleUsedItemPick = async () => {
     try {
-      const result = await toggleUseditemPick({
+      await toggleUseditemPick({
         variables: { useditemId: String(router.query.id) },
         refetchQueries: [
           {
@@ -130,14 +123,14 @@ export default function UsedItemDetail() {
           },
         ],
       })
-
-      if (result.data.toggleUseditemPick === 1) {
+      // console.log(result)
+      if (pick === false) {
         alert("상품을 찜했습니다!")
-        setPick(result.data.toggleUseditemPick)
+        setPick(true)
       }
-      if (result.data.toggleUseditemPick === 0) {
+      if (pick === true) {
         alert("찜을 취소했습니다!")
-        setPick(result.data.toggleUseditemPick)
+        setPick(false)
       }
     } catch (error) {
       alert(error.message)

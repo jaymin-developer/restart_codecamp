@@ -79,10 +79,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // useEffect, 서버에서 실행되지 않는다. 한 번만 실행된다.
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      setAccessToken(localStorage.getItem("accessToken") || "")
-    }
-    console.log(accessToken)
+    // if (localStorage.getItem("accessToken")) {
+    //   setAccessToken(localStorage.getItem("accessToken") || "")
+    // }
+    // console.log(accessToken)
     getAccessToken().then((newAccessToken) => {
       // 4. 재발급 받은 accessToken 저장하기
       setAccessToken(newAccessToken)
@@ -94,7 +94,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
         // 2. 해당 에러가 토큰 만료 에러인지 체크(UNAUTHENTICATED)
-        console.log(err)
+        // console.log(err)
         if (err.extensions.code === "UNAUTHENTICATED") {
           // 3. refreshToken으로 accessToken을 재발급 받기
           getAccessToken().then((newAccessToken) => {

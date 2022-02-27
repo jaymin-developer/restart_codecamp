@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { GlobalContext } from "../../../pages/_app"
+import { getAccessToken } from "../../commons/libraries/getAccessToken"
 
 // @ts-ignore
 
@@ -9,11 +10,16 @@ export const withAuth = (Component) => (props) => {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(accessToken)
-    if (!localStorage.getItem("accessToken")) {
-      alert("로그인을 먼저 해주세요!!!")
-      router.push("/login")
+    async function aaa() {
+      if (!accessToken) {
+        const newAccessToken = await getAccessToken()
+        if (!newAccessToken) {
+          alert("로그인을 먼저 해주세요!!!")
+          router.push("/login")
+        }
+      }
     }
+    aaa()
   }, [])
 
   return <Component {...props} />

@@ -4,21 +4,16 @@ import { getMyDate } from "../../../../commons/libraries/utils"
 import { Modal } from "antd"
 import { useState } from "react"
 import {
-  DELETE_USED_ITEM_QUESTION,
-  FETCH_USED_ITEM_QUESTIONS,
   FETCH_USED_ITEM_QUESTIONS_ANSWERS,
   DELETE_USED_ITEM_QUESTION_ANSWER,
 } from "./BoardCommentList.queries"
 import { useRouter } from "next/router"
-import { useMutation, useQuery } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 import {
   IMutation,
   IMutationDeleteUseditemQuestionAnswerArgs,
-  IMutationDeleteUseditemQuestionArgs,
+  // IMutationDeleteUseditemQuestionArgs,
 } from "../../../../commons/types/generated/types"
-import BoardCommentWrite from "../write/BoardCommentWrite.container"
-import UsedItemQuestionAnswer from "../write/UsedItemQuestionAnswer.container"
-import UsedItemQuestionAnswerUI from "../write/UsedItemQuestionAnswer.presenter"
 import UsedItemQuestionAnswerUI2 from "../write/UsedItemQuestionAnswer.presenter2"
 
 const Box = styled.div`

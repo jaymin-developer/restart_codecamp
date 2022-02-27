@@ -56,7 +56,7 @@ const FETCH_USER_LOGGED_IN = gql`
 `
 const LOGOUT_USER = gql`
   mutation logoutUser {
-    true
+    logoutUser
   }
 `
 
@@ -81,6 +81,8 @@ export default function LayoutHeader() {
 
   function onClickLogOut() {
     logoutUser()
+    alert("로그아웃이 됐습니다.")
+    window.location.reload()
   }
 
   function onClickGoMyPage() {

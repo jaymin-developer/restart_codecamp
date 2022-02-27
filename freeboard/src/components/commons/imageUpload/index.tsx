@@ -73,6 +73,7 @@ export default function UploadButtons(props) {
               objectFit: "cover",
               cursor: "zoom-in",
             }}
+          
           /> */}
           <Images>
             {props.images.map((el: string, index: number) => (
