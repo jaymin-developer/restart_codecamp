@@ -1,11 +1,10 @@
-// import UploadButtons from "../../../commons/imageUpload"
+import UploadButtons from "../../../commons/imageUpload"
 import * as S from "./usedItemWrite.styles"
 import Input01 from "../../../commons/inputs/01/inputs01"
 import dynamic from "next/dynamic"
 import "react-quill/dist/quill.snow.css"
 import { useEffect, useState } from "react"
-import { v4 as uuidv4 } from "uuid"
-import Uploads01 from "../../../commons/uploads/01/Uploads01.container"
+import Input02 from "../../../commons/inputs/02/inputs02"
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 declare const window: typeof globalThis & {
@@ -235,76 +234,102 @@ export default function UsedItemWriteUI(props) {
                 placeholder="도서를 설명해주세요"
                 onChange={props.handleChange}
                 style={{ height: "300px" }}
-                defaultValue={props.data?.fetchUseditem.contents}
+                defaultValue={
+                  props.contents || props.data?.fetchUseditem.contents || ""
+                }
+                // defaultValue={props.data?.fetchUseditem.contents}
               />
             </S.Contents>
-            {/* /> */}
-            <Input01
-              type="text"
-              placeholder="태그를 입력해주세요(예시 : #태그)"
-              onChange={props.onChangeTitle}
-              defaultValue={props.data?.fetchUseditem.tag}
-            />
-            <div style={{ color: "red", fontSize: "14px" }}>
-              {props.formState.errors.contents?.message}
+            <div style={{ display: "flex" }}>
+              {props.tags.map((el, index) => (
+                <div
+                  key={index}
+                  style={{
+                    color: "white",
+                    backgroundColor: "darkred",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    margin: "10px 5px",
+                  }}
+                >
+                  {el}
+                  <button
+                    type="button"
+                    onClick={props.onClickDeleteTag(el)}
+                    style={{
+                      backgroundColor: "transparent",
+                      border: "none",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
+
+              <div style={{ color: "red", fontSize: "14px" }}>
+                {props.formState.errors.contents?.message}
+              </div>
             </div>
           </S.WrapperBodyBody>
         </S.WrapperBody>
-        <S.WrapperFoot>
-          <S.Location>
-            <S.LocationLeft>
-              거래위치
-              <div
-                id="map"
-                style={{
-                  maxWidth: "90%",
-                  minHeight: "90%",
-                }}
-              >
-                {/* <div className="hAddr">
+      </S.Form>
+
+      <S.WrapperFoot>
+        <Input02
+          type="text"
+          placeholder="태그를 입력해주세요(예시 : #태그)"
+          onChangeTag={props.onChangeTag}
+          onKeyUpTags={props.onKeyUpTags}
+          defaultValue={props.data?.fetchUseditem.tag}
+        />
+        <S.Location>
+          <S.LocationLeft>
+            거래위치
+            <div
+              id="map"
+              style={{
+                maxWidth: "90%",
+                minHeight: "90%",
+              }}
+            >
+              {/* <div className="hAddr">
                   <span className="title">지도중심기준 행정동 주소정보</span>
                   <span id="centerAddr"></span>
                 </div> */}
-              </div>
-            </S.LocationLeft>
-            <S.LocationRight>
-              <div>GPS</div>
-              <div>
-                <div>위도(LAT) : {props.lat}</div>
-                <div>경도(LNG) : {props.lng}</div>
-              </div>
-              <div>주소</div>
-              <Input01 placeholder={도로명 || 지번 || ""} readonly={true} />
-            </S.LocationRight>
-          </S.Location>
-          <S.ImageUpload>
-            <p>이미지 업로드</p>
-            {props.images.map((el, index) => (
-              <Uploads01
-                key={uuidv4()}
-                index={index}
-                images={props.images}
-                files={props.files}
-                el={el}
-                onChangeFile={props.onChangeFile}
-              />
-            ))}
-          </S.ImageUpload>
-          <S.MainImage>
-            <div>메인 사진 설정</div>
-            <div>
-              <label>
-                <input type="radio" name="main" />
-                <span> 사진 1</span>
-              </label>
-              <label>
-                <input type="radio" name="main" />
-                <span> 사진 2</span>
-              </label>
             </div>
-          </S.MainImage>
-        </S.WrapperFoot>
-      </S.Form>
+          </S.LocationLeft>
+          <S.LocationRight>
+            <div>GPS</div>
+            <div>
+              <div>위도(LAT) : {props.lat}</div>
+              <div>경도(LNG) : {props.lng}</div>
+            </div>
+            <div>주소</div>
+            <Input01 placeholder={도로명 || 지번 || ""} readonly={true} />
+          </S.LocationRight>
+        </S.Location>
+        <S.ImageUpload>
+          <UploadButtons
+            onChangeFile={props.onChangeFile}
+            images={props.images}
+          />
+        </S.ImageUpload>
+        <S.MainImage>
+          <div>메인 사진 설정</div>
+          <div>
+            <label>
+              <input type="radio" name="main" />
+              <span> 사진 1</span>
+            </label>
+            <label>
+              <input type="radio" name="main" />
+              <span> 사진 2</span>
+            </label>
+          </div>
+        </S.MainImage>
+      </S.WrapperFoot>
     </S.Wrapper>
   )
 }

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import { breakPoints } from "../../../../commons/styles/media"
 
 const Wrapper = styled.div`
   height: 50px;
@@ -9,6 +10,12 @@ const Wrapper = styled.div`
   line-height: 50px;
   background-color: darkred;
   color: white;
+  @media ${breakPoints.tablet} {
+    font-size: 14px;
+  }
+  @media ${breakPoints.mobile} {
+    font-size: 11px;
+  }
 `
 
 export default function LayoutFooter() {

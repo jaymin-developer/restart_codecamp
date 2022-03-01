@@ -78,7 +78,13 @@ export default function UploadButtons(props) {
           <Images>
             {props.images.map((el: string, index: number) => (
               <div key={index}>
-                <img src={`https://storage.googleapis.com/` + el} alt={el} />
+                <img
+                  src={`https://storage.googleapis.com/` + el}
+                  alt={el}
+                  onError={(e) => {
+                    e.currentTarget.src = "/images/defaultbook.png"
+                  }}
+                />
               </div>
             ))}
           </Images>

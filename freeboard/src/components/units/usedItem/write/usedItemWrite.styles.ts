@@ -54,7 +54,7 @@ export const SubmitButton = styled.button`
 `
 
 export const WrapperBody = styled.div`
-  padding: 40px 20px;
+  padding: 40px 20px 10px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -99,6 +99,7 @@ export const Contents = styled.div`
   margin-top: 20px;
   font-size: 18px;
   width: 100%;
+  margin-bottom: 50px;
   /* height: 300px; */
   /* resize: none; */
   /* padding: 10px; */

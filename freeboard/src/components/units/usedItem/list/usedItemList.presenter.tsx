@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent"
 // import CardMedia from "@mui/material/CardMedia"
 // import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
+
 import {
   getMyDate,
   NowDate,
@@ -13,7 +14,15 @@ import {
 import { gql, useQuery } from "@apollo/client"
 import InfiniteScroll from "react-infinite-scroller"
 import { useRouter } from "next/router"
+import _ from "lodash"
+import { useState } from "react"
+import styled from "@emotion/styled"
 // import { useState } from "react"
+import { v4 as uuidv4 } from "uuid"
+
+const Word = styled.span`
+  color: ${(props) => (props.isMatched ? "red" : "black")};
+`
 
 const FETCH_USED_ITEMS = gql`
   query fetchUseditems($isSoldout: Boolean, $search: String, $page: Int) {
@@ -52,9 +61,20 @@ const FETCH_USED_ITEMS = gql`
 
 export default function UsedItemListUI() {
   const router = useRouter()
-  const { data, fetchMore } = useQuery(FETCH_USED_ITEMS, {
+  const [keyword, setKeyWord] = useState("")
+
+  const { data, refetch, fetchMore } = useQuery(FETCH_USED_ITEMS, {
     variables: { page: 1 },
   })
+
+  const getDebounce = _.debounce((data) => {
+    refetch({ search: data, page: 1 })
+    setKeyWord(data)
+  }, 500)
+
+  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    getDebounce(event.target.value)
+  }
 
   const onLoadMore = () => {
     if (!data) return
@@ -140,8 +160,8 @@ export default function UsedItemListUI() {
       <S.BodyInfo>
         <S.SearchTitle
           type="text"
-          placeholder="제목을 검색헤주세요."
-          //   onChange={props.onChangeSearch}
+          placeholder="상품을 검색헤주세요."
+          onChange={onChangeSearch}
         />
         <S.SearchDate> YYYY.MM.DD ~ YYYY.MM.DD </S.SearchDate>
         <S.SearchButton>검색하기</S.SearchButton>
@@ -207,16 +227,14 @@ export default function UsedItemListUI() {
                     maxWidth="700px"
                   >
                     상품명 :
-                    {
-                      el.name
-                      // .replaceAll(props.keyword, `#$%${props.keyword}#$%`)
-                      // .split("#$%")
-                      // .map((el) => (
-                      //   <span key={props.uuidv4()}>
-                      //     <Word isMatched={el === props.keyword}>{el}</Word>
-                      //   </span>
-                      // ))
-                    }
+                    {el.name
+                      .replaceAll(keyword, `#$%${keyword}#$%`)
+                      .split("#$%")
+                      .map((el) => (
+                        <span key={uuidv4()}>
+                          <Word isMatched={el === keyword}>{el}</Word>
+                        </span>
+                      ))}
                   </Typography>
 
                   <Typography
@@ -246,12 +264,32 @@ export default function UsedItemListUI() {
                     maxWidth="700px"
                     display="flex"
                     alignItems="center"
-                    height="100%"
+                    height="70%"
                     fontSize="20px"
                   >
                     가격 : {el.price}원<br /> 거래위치 :
-                    {el.useditemAddress?.address}
+                    {el.useditemAddress?.address
+                      ? el.useditemAddress?.address
+                      : "위치 정보 없음"}{" "}
+                    <br />
                   </Typography>
+                  <div style={{ display: "flex" }}>
+                    {el.tags?.map((el, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          color: "white",
+                          backgroundColor: "darkred",
+                          padding: "10px",
+                          borderRadius: "10px",
+                          margin: "0px 5px",
+                          fontSize: "5px",
+                        }}
+                      >
+                        {el}
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </Box>

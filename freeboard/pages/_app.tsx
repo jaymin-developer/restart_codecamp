@@ -124,6 +124,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     link: ApolloLink.from([errorLink, uploadLink as unknown as ApolloLink]),
     // 다른 기능들을 연결하겠다.
     cache: new InMemoryCache(),
+
+    connectToDevTools: true,
   })
 
   return (

@@ -46,3 +46,7 @@ export const ColumnTitle = styled.div`
     color: blue;
   }
 `
+
+// export const TextToken = styled.span`
+//   color: ${(props) => (props.isMatched ? "red" : "black")};
+// `

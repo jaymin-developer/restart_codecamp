@@ -16,7 +16,7 @@ export default function Uploads01(props: IUploads01Props) {
     fileRef.current?.click()
   }
 
-  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeFile = (el) => async (event: ChangeEvent<HTMLInputElement>) => {
     const file = checkValidationImage(event.target.files?.[0])
     if (!file) return
 
@@ -27,8 +27,6 @@ export default function Uploads01(props: IUploads01Props) {
       Modal.error({ content: error.message })
     }
   }
-  console.log("props.el")
-  console.log(props.el)
   return (
     <>
       {props.files ? (
@@ -42,7 +40,11 @@ export default function Uploads01(props: IUploads01Props) {
           <>Upload</>
         </UploadButton>
       )}
-      <UploadFileHidden type="file" ref={fileRef} onChange={onChangeFile} />
+      <UploadFileHidden
+        type="file"
+        ref={fileRef}
+        onChange={onChangeFile(props.el)}
+      />
     </>
   )
 }

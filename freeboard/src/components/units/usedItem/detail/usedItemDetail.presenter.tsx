@@ -19,6 +19,7 @@ const FETCH_USED_ITEM = gql`
       remarks
       contents
       price
+      tags
       images
       createdAt
       pickedCount
@@ -132,9 +133,25 @@ export default function UsedItemDetailUI(props) {
           <S.Link />
           <BasicMenu location={location} onClickDelete={props.onClickDelete} />
         </S.WriterBox>
-        <div>tags :</div>
-        <S.Remark>{data?.fetchUseditem?.remarks}</S.Remark>
-        <S.Name>{data?.fetchUseditem?.name}</S.Name>
+        <div style={{ display: "flex" }}>
+          {data?.fetchUseditem?.tags?.map((el, index) => (
+            <div
+              key={index}
+              style={{
+                color: "white",
+                backgroundColor: "darkred",
+                padding: "10px",
+                borderRadius: "10px",
+                margin: "10px 5px",
+              }}
+            >
+              {el}
+            </div>
+          ))}
+        </div>
+        <S.Name>상품명 : {data?.fetchUseditem?.name}</S.Name>
+        <S.Remark>한줄평 : {data?.fetchUseditem?.remarks}</S.Remark>
+
         {/* <S.Price>{data?.fetchUseditem?.price}</S.Price> */}
         <Slider {...settings}>
           {data?.fetchUseditem.youtubeUrl && (
@@ -166,7 +183,7 @@ export default function UsedItemDetailUI(props) {
         ) : (
           <S.Contents></S.Contents>
         )}
-        {data?.fetchUseditem.useditemAddress.lat && (
+        {data?.fetchUseditem?.useditemAddress?.lat && (
           <div id="map" style={{ width: "100%", height: "350px" }}></div>
         )}
         <div>

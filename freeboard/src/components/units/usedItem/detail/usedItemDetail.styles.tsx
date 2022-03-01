@@ -64,12 +64,13 @@ export const Remark = styled.p`
   max-width: 1500px;
   table-layout: fixed;
   word-wrap: break-word;
-  padding-top: 20px;
+
   font-size: 14px;
   color: #bdbdbd;
 `
 
 export const Name = styled.p`
+  padding-top: 20px;
   max-width: 1500px;
   table-layout: fixed;
   word-wrap: break-word;

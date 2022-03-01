@@ -1,6 +1,6 @@
-import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
+import { breakPoints } from "../src/commons/styles/media"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,6 +17,13 @@ const Logo = styled.h1`
   width: 30%;
   display: inline;
   color: white;
+
+  @media ${breakPoints.tablet} {
+    font-size: 28px;
+  }
+  @media ${breakPoints.mobile} {
+    font-size: 24px;
+  }
 `
 const Page1 = styled.div`
   width: 100vw;
@@ -27,6 +34,15 @@ const Page1 = styled.div`
   background-size: cover;
   overflow: hidden;
   background-image: url("/images/letter-box.jpg");
+
+  @media ${breakPoints.tablet} {
+    font-size: 28px;
+    background-image: url("/images/letter-box-mini.jpg");
+  }
+  @media ${breakPoints.mobile} {
+    font-size: 24px;
+    background-image: url("/images/letter-box-mini.jpg");
+  }
 `
 const Moto = styled.div`
   width: 600px;
@@ -41,6 +57,19 @@ const Moto = styled.div`
   & p {
     font-size: 60px;
   }
+
+  @media ${breakPoints.tablet} {
+    font-size: 36px;
+    & p {
+      font-size: 48px;
+    }
+  }
+  @media ${breakPoints.mobile} {
+    font-size: 24px;
+    & p {
+      font-size: 32px;
+    }
+  }
 `
 
 const HomeButton = styled.button`
@@ -54,6 +83,15 @@ const HomeButton = styled.button`
   padding: 16px;
   :hover {
     cursor: pointer;
+  }
+
+  @media ${breakPoints.tablet} {
+    width: 250px;
+    font-size: 18px;
+  }
+  @media ${breakPoints.mobile} {
+    width: 200px;
+    font-size: 16px;
   }
 `
 
@@ -101,9 +139,9 @@ export default function LandingPage() {
         {/* <Message>
           독서를 하면서 느낀 감정과 생각 그리고 가슴 속 새기고 싶은 문구들.
           기록은 했지만 나중에 찾으려니 한 세월, 그 기록을 여러분께 전달하려고
-          합니다.​ '느린 우체통' 들어보셨나요? 편지를 넣으면 1년 뒤에 수거하여
+          합니다. '느린 우체통' 들어보셨나요? 편지를 넣으면 1년 뒤에 수거하여
           보내주는 우체통인데요. 잊을 때 쯤 돌아오는 편지를 보며 '느린 우책통'
-          프로젝트를 기획하게 됐습니다. ​ ​여러분의 책을 기록해주세요. 당신의
+          프로젝트를 기획하게 됐습니다. 여러분의 책을 기록해주세요. 당신의
           책이 여러분을 기억하여 찾아갑니다.{" "}
         </Message> */}
       </Page2>

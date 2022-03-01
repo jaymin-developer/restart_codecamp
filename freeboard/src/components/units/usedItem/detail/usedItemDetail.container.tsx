@@ -22,6 +22,7 @@ const FETCH_USED_ITEM = gql`
       createdAt
       pickedCount
       soldAt
+      tags
     }
   }
 `

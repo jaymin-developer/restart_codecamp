@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { GlobalContext } from "../../../pages/_app"
 import { getAccessToken } from "../../commons/libraries/getAccessToken"
 
@@ -10,7 +10,7 @@ export const withAuth = (Component) => (props) => {
   const router = useRouter()
 
   useEffect(() => {
-    async function aaa() {
+    async function getToken() {
       if (!accessToken) {
         const newAccessToken = await getAccessToken()
         if (!newAccessToken) {
@@ -19,7 +19,7 @@ export const withAuth = (Component) => (props) => {
         }
       }
     }
-    aaa()
+    getToken()
   }, [])
 
   return <Component {...props} />

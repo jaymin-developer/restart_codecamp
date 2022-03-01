@@ -4,9 +4,9 @@ import Head from "next/head"
 import { useState } from "react"
 import { IQuery } from "../../../commons/types/generated/types"
 import styled from "@emotion/styled"
-import * as S from "./mypage.styles"
 import { useRouter } from "next/router"
-import { getMyDate, getMyDate2 } from "../../../commons/libraries/utils"
+import MyUsedItemsPage from "./myuseditems"
+import _ from "lodash"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -30,15 +30,6 @@ const WrapperRight = styled.div`
   margin-top: 100px;
   display: flex;
   flex-direction: column;
-`
-
-const WrapperRightTop = styled.div`
-  width: 80%;
-  display: flex;
-`
-
-const WrapperRightBody = styled.div`
-  width: 80%;
 `
 
 const CREATE_POINT_TRANSACTION_OF_LOADING = gql`
@@ -79,6 +70,10 @@ const FETCH_USED_ITEMS_I_SOLD = gql`
 
 export default function MyPageList() {
   const router = useRouter()
+  const [keyword, setKeyWord] = useState("")
+  const [pickUsedItem, setPickUsedItem] = useState(true)
+  const [pickMyPoint, setPickMyPoint] = useState(false)
+  const [pickMyProfile, setMyProfile] = useState(false)
   const [amount, setAmount] = useState(0)
   const [isModal, setIsModal] = useState(false)
   const [createPointTransactionOfLoading] = useMutation(
@@ -89,7 +84,9 @@ export default function MyPageList() {
   const { data, refetch } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
 
-  const { data: soldData } = useQuery(FETCH_USED_ITEMS_I_SOLD)
+  const { data: soldData, refetch: soldRefetch } = useQuery(
+    FETCH_USED_ITEMS_I_SOLD
+  )
   console.log(soldData?.fetchUseditemsISold)
 
   const onChangeAmount = (event) => {
@@ -131,6 +128,7 @@ export default function MyPageList() {
       (rsp) => {
         // callback
         if (rsp.success) {
+          console.log(rsp)
           // 결제 성공 시 로직,
           // 포인트 충전시 이 곳에서 BE로 정보를 넘겨주는 로직을 작성해야함 ( imp_uid , paid_amount ) 즉, Mutation 실행 (createPointTransactionOfLoading)
           // console.log("ㅁㄴㅇ", rsp);
@@ -145,8 +143,35 @@ export default function MyPageList() {
     )
   }
 
+  const getDebounce = _.debounce((data) => {
+    soldRefetch({ search: data, page: 1 })
+    setKeyWord(data)
+  }, 500)
+
+  const onChangeSearch = (event) => {
+    getDebounce(event.target.value)
+  }
+
   function onClickMoveToBoardDetail(event) {
     router.push(`/usedItems/${event.target.id}`)
+  }
+
+  function onClickPickUsedItem() {
+    setPickUsedItem(true)
+    setPickMyPoint(false)
+    setMyProfile(false)
+  }
+
+  function onClickPickMyPoint() {
+    setPickUsedItem(false)
+    setPickMyPoint(true)
+    setMyProfile(false)
+  }
+
+  function onClickMyProfile() {
+    setPickUsedItem(false)
+    setPickMyPoint(false)
+    setMyProfile(true)
   }
 
   return (
@@ -198,49 +223,49 @@ export default function MyPageList() {
             💲{data?.fetchUserLoggedIn.userPoint.amount}
           </p>
           <br />
-          <p style={{ cursor: "pointer" }}>🛄 장바구니</p>
-          <p style={{ cursor: "pointer" }}>💲 내 포인트</p>
-          <p style={{ cursor: "pointer" }}>☺︎ 내 프로필</p>
+          <p
+            style={{
+              cursor: "pointer",
+              color: pickUsedItem ? "darkred" : "black",
+            }}
+            onClick={onClickPickUsedItem}
+          >
+            🛄 내 장터
+          </p>
+          <p
+            style={{
+              cursor: "pointer",
+              color: pickMyPoint ? "darkred" : "black",
+            }}
+            onClick={onClickPickMyPoint}
+          >
+            💲 내 포인트
+          </p>
+          <p
+            style={{
+              cursor: "pointer",
+              color: pickMyProfile ? "darkred" : "black",
+            }}
+            onClick={onClickMyProfile}
+          >
+            ☺︎ 내 프로필
+          </p>
           <p onClick={onClickModal} style={{ cursor: "pointer" }}>
             𝐏 포인트 충전
           </p>
         </WrapperLeft>
         <WrapperRight>
-          <WrapperRightTop></WrapperRightTop>
-          <WrapperRightBody>
-            <S.TableTop />
-            <S.Row>
-              <S.ColumnHeaderBasic>번호</S.ColumnHeaderBasic>
-              <S.ColumnHeaderTitle>상품명</S.ColumnHeaderTitle>
-              <S.ColumnHeaderBasic>판매가격</S.ColumnHeaderBasic>
-              <S.ColumnHeaderBasic>작성날짜</S.ColumnHeaderBasic>
-            </S.Row>
-            {soldData?.fetchUseditemsISold.map((el, index) => (
-              <S.Row key={el._id}>
-                <S.ColumnBasic>{index + 1}</S.ColumnBasic>
-                <S.ColumnTitle id={el._id} onClick={onClickMoveToBoardDetail}>
-                  {el.name}{" "}
-                  <span style={{ color: "blue" }}>
-                    {el.soldAt && `판매 완료`}
-                  </span>
-                  {/* {el.title
-                    .replaceAll(props.keyword, `@#$%${props.keyword}@#$%`)
-                    .split("@#$%")
-                    .map((el) => (
-                      <S.TextToken
-                        key={uuidv4()}
-                        isMatched={props.keyword === el}
-                      >
-                        {el}
-                      </S.TextToken>
-                    ))} */}
-                </S.ColumnTitle>
-                <S.ColumnBasic>{el.price}</S.ColumnBasic>
-                <S.ColumnBasic>{getMyDate2(el.createdAt)}</S.ColumnBasic>
-              </S.Row>
-            ))}
-            <S.TableBottom />
-          </WrapperRightBody>
+          {pickUsedItem && (
+            <MyUsedItemsPage
+              soldData={soldData}
+              onClickMoveToBoardDetail={onClickMoveToBoardDetail}
+              keyword={keyword}
+              onChangeSearch={onChangeSearch}
+            />
+          )}
+          {pickMyPoint && <div>포인트</div>}
+
+          {pickMyProfile && <div>프로필</div>}
         </WrapperRight>
       </Wrapper>
     </>
