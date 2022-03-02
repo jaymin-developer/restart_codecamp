@@ -12,14 +12,6 @@ const WrapperRightTop = styled.div`
 const WrapperRightBody = styled.div`
   width: 100%;
 `
-export const SearchTitle = styled.input`
-  width: 100%;
-  height: 30px;
-  background-color: #f2f2f2;
-  border: none;
-  border-radius: 10px;
-  padding-left: 20px;
-`
 
 export default function MyUsedItemsPage(props) {
   const [click, setClick] = useState(true)
@@ -54,24 +46,14 @@ export default function MyUsedItemsPage(props) {
             나의 찜
           </span>
         </div>
-        <div>
-          <SearchTitle
-            type="text"
-            placeholder="상품을 검색해주세요."
-            onChange={props.onChangeSearch}
-          />
-        </div>
       </WrapperRightTop>
       <WrapperRightBody>
         {click ? (
           <SellItems
-            soldData={props.soldData}
-            keyword={props.keyword}
             onClickMoveToBoardDetail={props.onClickMoveToBoardDetail}
           />
         ) : (
           <PickedItems
-            soldData={props.soldData}
             onClickMoveToBoardDetail={props.onClickMoveToBoardDetail}
           />
         )}

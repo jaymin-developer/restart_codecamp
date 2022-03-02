@@ -6,7 +6,8 @@ import { IQuery } from "../../../commons/types/generated/types"
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 import MyUsedItemsPage from "./myuseditems"
-import _ from "lodash"
+import MyProfilePage from "./myprofile"
+import MyPointPage from "./mypoint"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -56,21 +57,8 @@ const FETCH_USER_LOGGED_IN = gql`
   }
 `
 
-const FETCH_USED_ITEMS_I_SOLD = gql`
-  query fetchUseditemsISold($page: Int, $search: String) {
-    fetchUseditemsISold(page: $page, search: $search) {
-      _id
-      name
-      price
-      soldAt
-      createdAt
-    }
-  }
-`
-
 export default function MyPageList() {
   const router = useRouter()
-  const [keyword, setKeyWord] = useState("")
   const [pickUsedItem, setPickUsedItem] = useState(true)
   const [pickMyPoint, setPickMyPoint] = useState(false)
   const [pickMyProfile, setMyProfile] = useState(false)
@@ -83,11 +71,6 @@ export default function MyPageList() {
 
   const { data, refetch } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN)
-
-  const { data: soldData, refetch: soldRefetch } = useQuery(
-    FETCH_USED_ITEMS_I_SOLD
-  )
-  console.log(soldData?.fetchUseditemsISold)
 
   const onChangeAmount = (event) => {
     setAmount(Number(event.target.value))
@@ -141,15 +124,6 @@ export default function MyPageList() {
         }
       }
     )
-  }
-
-  const getDebounce = _.debounce((data) => {
-    soldRefetch({ search: data, page: 1 })
-    setKeyWord(data)
-  }, 500)
-
-  const onChangeSearch = (event) => {
-    getDebounce(event.target.value)
   }
 
   function onClickMoveToBoardDetail(event) {
@@ -257,15 +231,12 @@ export default function MyPageList() {
         <WrapperRight>
           {pickUsedItem && (
             <MyUsedItemsPage
-              soldData={soldData}
               onClickMoveToBoardDetail={onClickMoveToBoardDetail}
-              keyword={keyword}
-              onChangeSearch={onChangeSearch}
             />
           )}
-          {pickMyPoint && <div>포인트</div>}
+          {pickMyPoint && <MyPointPage />}
 
-          {pickMyProfile && <div>프로필</div>}
+          {pickMyProfile && <MyProfilePage />}
         </WrapperRight>
       </Wrapper>
     </>
