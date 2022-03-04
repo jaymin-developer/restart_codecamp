@@ -59,10 +59,6 @@ export default function UsedItemDetailUI(props) {
     const script = document.createElement("script") // <script></script> 태그를 만들어줌
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_MAP_API}&libraries=services&autoload=false`
     document.head.appendChild(script) // html 문서에 head부분에 자식태그로 script를 넣어줘
-    // 이해했고
-
-    // console.log(data?.fetchUseditem?.useditemAddress?.lat)
-    // console.log(data?.fetchUseditem?.useditemAddress?.lng)
 
     script.onload = () => {
       window.kakao.maps.load(function () {
