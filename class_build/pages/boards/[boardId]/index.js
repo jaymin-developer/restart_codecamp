@@ -1,20 +1,25 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { gql, request } from "graphql-request";
 
-export default function BoardsDetailPage() {
+export default function BoardsDetailPage(props) {
   const router = useRouter();
+  //   const { data } = useQuery(FETCH_BOARD);
 
   return (
     <div>
       <Head>
-        <meta property="og:title" content="나의 게시판입니다" />
+        <meta
+          property="og:title"
+          content={props.myboardData.fetchBoard.title}
+        />
         <meta
           property="og:description"
-          content="저의 게시판에 오신 것을 환영합니다"
+          content={props.myboardData.fetchBoard.contents}
         />
         <meta
           property="og:image"
-          content="https://w.namu.la/s/9071d0575b6d14c0d6fc5832e26fe8ef0a298a1abb1d442cc3c865534ec5e949e8a2d195fe425ebb15f2f1f5b270e6b86979bd1e3fcb4e9d9432bdfbf4fb02a6ef1dadc3477ddb5e704cd37314ac39a1"
+          content={props.myboardData.fetchBoard.images[0]}
         />
       </Head>
       <div>
@@ -25,3 +30,34 @@ export default function BoardsDetailPage() {
     </div>
   );
 }
+
+const FETCH_BOARD = gql`
+  query fetchBoard($boardId: ID!) {
+    fetchBoard(boardId: $boardId) {
+      title
+      contents
+      images
+    }
+  }
+`;
+// 이 페이지는 서버사이드 렌더링 할래!
+export const getServerSideProps = async (context) => {
+  //데이터 요청할 것!!
+  const result = await request(
+    "https://backend05.codebootcamp.co.kr/graphql",
+    FETCH_BOARD,
+    {
+      boardId: context.query.boardId,
+    }
+  );
+
+  return {
+    props: {
+      myboardData: {
+        title: result.fetchBoard.title,
+        contents: result.fetchBoard.contents,
+        images: result.fetchBoard.images,
+      },
+    },
+  };
+};
