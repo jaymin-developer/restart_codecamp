@@ -7,8 +7,8 @@ export default function BoardsDetailPage() {
   return (
     <div>
       <Head>
-        <mega property="og:title" content="나의 게시판입니다" />
-        <mega
+        <meta property="og:title" content="나의 게시판입니다" />
+        <meta
           property="og:description"
           content="저의 게시판에 오신 것을 환영합니다"
         />
