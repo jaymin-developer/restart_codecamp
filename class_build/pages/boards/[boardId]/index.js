@@ -44,7 +44,7 @@ const FETCH_BOARD = gql`
 export const getServerSideProps = async (context) => {
   //데이터 요청할 것!!
   const result = await request(
-    "https://backend05.codebootcamp.co.kr/graphql",
+    "http://backend05.codebootcamp.co.kr/graphql",
     FETCH_BOARD,
     {
       boardId: context.query.boardId,
