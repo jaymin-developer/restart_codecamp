@@ -9,18 +9,9 @@ export default function BoardsDetailPage(props) {
   return (
     <div>
       <Head>
-        <meta
-          property="og:title"
-          content={props.myboardData.fetchBoard.title}
-        />
-        <meta
-          property="og:description"
-          content={props.myboardData.fetchBoard.contents}
-        />
-        <meta
-          property="og:image"
-          content={props.myboardData.fetchBoard.images[0]}
-        />
+        <meta property="og:title" content={props.myboardData.title} />
+        <meta property="og:description" content={props.myboardData.contents} />
+        <meta property="og:image" content={props.myboardData.images[0]} />
       </Head>
       <div>
         안녕하세요! 게시글 상세페이지 입니다!! 게시글 ID는{" "}
@@ -44,7 +35,7 @@ const FETCH_BOARD = gql`
 export const getServerSideProps = async (context) => {
   //데이터 요청할 것!!
   const result = await request(
-    "http://backend05.codebootcamp.co.kr/graphql",
+    "https://backend05.codebootcamp.co.kr/graphql",
     FETCH_BOARD,
     {
       boardId: context.query.boardId,
