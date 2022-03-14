@@ -1,9 +1,9 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { gql, request } from "graphql-request";
+import Head from "next/head"
+import { useRouter } from "next/router"
+import { gql, request } from "graphql-request"
 
 export default function BoardsDetailPage(props) {
-  const router = useRouter();
+  const router = useRouter()
   //   const { data } = useQuery(FETCH_BOARD);
 
   return (
@@ -19,7 +19,7 @@ export default function BoardsDetailPage(props) {
         입니다.
       </div>
     </div>
-  );
+  )
 }
 
 const FETCH_BOARD = gql`
@@ -30,7 +30,7 @@ const FETCH_BOARD = gql`
       images
     }
   }
-`;
+`
 // 이 페이지는 서버사이드 렌더링 할래!
 export const getServerSideProps = async (context) => {
   //데이터 요청할 것!!
@@ -40,7 +40,7 @@ export const getServerSideProps = async (context) => {
     {
       boardId: context.query.boardId,
     }
-  );
+  )
 
   return {
     props: {
@@ -50,5 +50,5 @@ export const getServerSideProps = async (context) => {
         images: result.fetchBoard.images,
       },
     },
-  };
-};
+  }
+}
